@@ -1,0 +1,54 @@
+# Python / Node environments and generated files
+__pycache__/
+*.py[cod]
+.venv*/
+venv/
+.python311/
+.node/
+.downloads/
+node_modules/
+dist/
+*.tsbuildinfo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage*
+htmlcov/
+*.egg-info/
+build/
+
+# Machine-local settings and credentials (examples are public)
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Runtime state, logs, downloaded/generated business data
+*.log
+*.db
+*.db-*
+*.sqlite*
+/backend/data/*
+!/backend/data/README.md
+# Public data is regenerated from backend/scripts and app/demo_data.py.
+
+# Local evaluation traces, backups, interview/resume materials and media
+/output/
+/tmp/
+/*.pdf
+/1.py
+/start
+/docs/images/
+/docs/*validation*
+/docs/offline-tests*
+/docs/repository-readiness.md

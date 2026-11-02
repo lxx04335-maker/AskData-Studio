@@ -1,0 +1,125 @@
+{
+  "id": "Q07",
+  "title": "电商支付总览",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：统计2026年8月1日至22日下单且实付金额大于0的订单数和实付金额合计。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "08112076bae5",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT COUNT(DISTINCT orders.order_id) AS \"订单数\", SUM(orders.paid_amount) AS \"实付金额合计\" FROM orders WHERE orders.ordered_at >= '2026-08-01 00:00:00' AND orders.ordered_at < '2026-08-23 00:00:00' AND orders.paid_amount > 0",
+    "columns": [
+      "订单数",
+      "实付金额合计"
+    ],
+    "rows": [
+      {
+        "订单数": 398,
+        "实付金额合计": 1388165.7099999995
+      }
+    ],
+    "analysis": "该期间内实付金额大于0的订单共398单，实付金额合计为1388165.7099999995。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "SELECT COUNT(DISTINCT orders.order_id) AS \"订单数\", SUM(orders.paid_amount) AS \"实付金额合计\" FROM orders WHERE orders.ordered_at >= '2026-08-01 00:00:00' AND orders.ordered_at < '2026-08-23 00:00:00' AND orders.paid_amount > 0",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "SELECT COUNT(DISTINCT orders.order_id) AS \"订单数\", SUM(orders.paid_amount) AS \"实付金额合计\" FROM orders WHERE orders.ordered_at >= '2026-08-01 00:00:00' AND orders.ordered_at < '2026-08-23 00:00:00' AND orders.paid_amount > 0"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "SELECT COUNT(DISTINCT orders.order_id) AS \"订单数\", SUM(orders.paid_amount) AS \"实付金额合计\" FROM orders WHERE orders.ordered_at >= '2026-08-01 00:00:00' AND orders.ordered_at < '2026-08-23 00:00:00' AND orders.paid_amount > 0",
+          "success": true,
+          "columns": [
+            "订单数",
+            "实付金额合计"
+          ],
+          "rows": [
+            {
+              "订单数": 398,
+              "实付金额合计": 1388165.7099999995
+            }
+          ],
+          "row_count": 1,
+          "error": null
+        },
+        "reason": "统计ecommerce_ops中2026-08-01至2026-08-22下单且实付金额大于0的订单数与实付金额合计"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.ordered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.user_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.payment_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.payable_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.store_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.paid_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.item_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.discount_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.paid_orders"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_id"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

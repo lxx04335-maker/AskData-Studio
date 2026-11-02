@@ -1,0 +1,37 @@
+{
+  "id": "Q25",
+  "title": "工作区越权字段拦截",
+  "kind": "workspace_denied",
+  "query": "只查询 askdata_mock：统计2026年8月订单实付金额合计。",
+  "user": "demo_analyst",
+  "passed": false,
+  "reason": "工作区无权字段应在执行前拦截",
+  "category": "infrastructure",
+  "result": {
+    "task_id": "df2fbaeca039",
+    "status": "completed",
+    "route": "direct_response",
+    "workflow_mode": "route_fallback",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "大模型服务暂时不可用，请稍后重试。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [],
+    "execution_log": [
+      {
+        "stage": "route_fallback",
+        "success": true,
+        "source": "model_unavailable_fallback",
+        "action": "direct_response",
+        "reason": "预处理模型不可用，已启用保守兜底：模型流式响应失败：HTTP Error 400: Bad Request"
+      }
+    ],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 1
+}

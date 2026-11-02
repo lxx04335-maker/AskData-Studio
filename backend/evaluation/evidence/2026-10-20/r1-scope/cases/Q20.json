@@ -1,0 +1,53 @@
+{
+  "id": "Q20",
+  "title": "不存在指标不编造",
+  "kind": "unsupported",
+  "query": "只查询 askdata_mock：统计2026年8月各仓库的库存周转天数。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "缺失指标应澄清或明确停止，不编造表格",
+  "category": "passed",
+  "result": {
+    "task_id": "dbaa2932e5c6",
+    "status": "waiting_clarification",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "请补充“仓库”字段及库存周转天数的计算口径：应使用哪张表/字段作为仓库，以及库存周转天数如何计算？ 你可以直接回复：补充仓库与库存周转字段、将销售目标地区视作仓库、改为统计2026年8月各仓库销售额。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": {
+      "parameter": "warehouse_fields_and_turnover_formula",
+      "question": "请补充“仓库”字段及库存周转天数的计算口径：应使用哪张表/字段作为仓库，以及库存周转天数如何计算？",
+      "reason": "库存周转天数通常需要平均库存、销售成本或出库量等字段；当前 Schema 中未检索到相关字段，不同口径会实质改变查询结果。",
+      "options": [
+        {
+          "id": "provide_warehouse_and_inventory_fields",
+          "label": "补充仓库与库存周转字段",
+          "description": "请提供包含仓库编码/名称、期初库存、期末库存或平均库存、销售成本/出库量等字段的表名和字段名。",
+          "recommended": true
+        },
+        {
+          "id": "use_region_as_warehouse",
+          "label": "将销售目标地区视作仓库",
+          "description": "使用 sales_targets 中的地区字段替代仓库，但仍缺少库存与出库字段，无法计算库存周转天数。",
+          "recommended": false
+        },
+        {
+          "id": "change_metric_to_sales",
+          "label": "改为统计2026年8月各仓库销售额",
+          "description": "放弃库存周转天数，改为统计销售额；但当前 Schema 仍未明确仓库字段，需要补充字段。",
+          "recommended": false
+        }
+      ]
+    },
+    "tool_calls": [],
+    "execution_log": [],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 4
+}

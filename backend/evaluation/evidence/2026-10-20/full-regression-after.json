@@ -1,0 +1,7 @@
+{
+  "tests": 71,
+  "seconds": 36.148,
+  "successful": true,
+  "log": "full-regression-after.txt",
+  "application_engine_sha256": "32a6e0c82b049790efd0d5d88b036c02fc3f2e00111b0418c9d84b1ba03d2219"
+}

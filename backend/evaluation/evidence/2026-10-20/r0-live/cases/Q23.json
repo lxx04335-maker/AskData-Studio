@@ -1,0 +1,172 @@
+{
+  "id": "Q23",
+  "title": "报告图表引用原表",
+  "kind": "report",
+  "query": "基于刚才的客户等级销售结果生成分析报告，并用柱状图展示，引用原表，不要查询新数据。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "报告Markdown和图表必须引用原表有效字段（报告事实需人工复核）",
+  "category": "passed",
+  "result": {
+    "task_id": "7e8cc89d3178",
+    "status": "completed",
+    "route": "data_qa",
+    "workflow_mode": "qa_report",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "# 2026年8月客户等级销售分析报告\n\n## 分析范围\n- 数据来源：引用原查询结果，task_id 为 97d36a6812c4，标题为 2026年8月各客户等级销售额。\n- 统计口径：2026年8月订单按客户等级汇总实付金额，不额外筛选订单状态。\n- 展示维度：客户等级、销售额。\n\n## 关键发现\n- 战略客户销售额最高，为 6414338.77。\n- 普通客户销售额为 5474717.37，低于战略客户。\n- 重点客户销售额为 3769570.5500000017，在三类客户中最低。\n- 战略客户与普通客户差距相对较小，重点客户销售额明显低于前两类。\n\n## 详细分析\n| 客户等级 | 销售额 |\n| --- | ---: |\n| 战略客户 | 6414338.77 |\n| 普通客户 | 5474717.37 |\n| 重点客户 | 3769570.5500000017 |\n\n从原表看，2026年8月销售额排序为战略客户、普通客户、重点客户。战略客户是当月销售的主要贡献来源，普通客户紧随其后，重点客户贡献相对较弱。柱状图用于直观比较三类客户等级销售额差异。\n\n## 风险或限制\n- 当前数据仅按客户等级汇总，不包含客户数量、订单数量、平均订单金额，无法判断销售额差异来自客户规模还是单客贡献。\n- 查询未额外筛选订单状态，不同状态订单可能被纳入，需结合业务口径确认有效销售。\n- 仅覆盖2026年8月单月，无法判断趋势变化。\n\n## 建议\n- 优先维护战略客户，确保核心销售贡献稳定。\n- 关注普通客户，分析其与战略客户的差距来源，并提升复购或客单贡献。\n- 针对重点客户销售额偏低的情况，补充客户数、订单状态和时间趋势数据后再判断原因。",
+    "analysis_sources": [
+      {
+        "task_id": "97d36a6812c4",
+        "title": "2026年8月各客户等级销售额",
+        "query": "只查询 askdata_mock：查询2026年8月各客户等级的销售额，按实付金额汇总，从高到低排序，不额外筛选订单状态。",
+        "row_count": 3,
+        "columns": [
+          "客户等级",
+          "销售额"
+        ]
+      }
+    ],
+    "report": {
+      "title": "2026年8月客户等级销售分析报告",
+      "markdown": "# 2026年8月客户等级销售分析报告\n\n## 分析范围\n- 数据来源：引用原查询结果，task_id 为 97d36a6812c4，标题为 2026年8月各客户等级销售额。\n- 统计口径：2026年8月订单按客户等级汇总实付金额，不额外筛选订单状态。\n- 展示维度：客户等级、销售额。\n\n## 关键发现\n- 战略客户销售额最高，为 6414338.77。\n- 普通客户销售额为 5474717.37，低于战略客户。\n- 重点客户销售额为 3769570.5500000017，在三类客户中最低。\n- 战略客户与普通客户差距相对较小，重点客户销售额明显低于前两类。\n\n## 详细分析\n| 客户等级 | 销售额 |\n| --- | ---: |\n| 战略客户 | 6414338.77 |\n| 普通客户 | 5474717.37 |\n| 重点客户 | 3769570.5500000017 |\n\n从原表看，2026年8月销售额排序为战略客户、普通客户、重点客户。战略客户是当月销售的主要贡献来源，普通客户紧随其后，重点客户贡献相对较弱。柱状图用于直观比较三类客户等级销售额差异。\n\n## 风险或限制\n- 当前数据仅按客户等级汇总，不包含客户数量、订单数量、平均订单金额，无法判断销售额差异来自客户规模还是单客贡献。\n- 查询未额外筛选订单状态，不同状态订单可能被纳入，需结合业务口径确认有效销售。\n- 仅覆盖2026年8月单月，无法判断趋势变化。\n\n## 建议\n- 优先维护战略客户，确保核心销售贡献稳定。\n- 关注普通客户，分析其与战略客户的差距来源，并提升复购或客单贡献。\n- 针对重点客户销售额偏低的情况，补充客户数、订单状态和时间趋势数据后再判断原因。",
+      "visualizations": [
+        {
+          "type": "bar",
+          "title": "2026年8月各客户等级销售额柱状图",
+          "source_task_id": "97d36a6812c4",
+          "category_field": "客户等级",
+          "value_field": "销售额",
+          "max_items": 3
+        }
+      ]
+    },
+    "clarification": null,
+    "tool_calls": [],
+    "execution_log": [],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "setup_result": {
+    "task_id": "97d36a6812c4",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT customers.customer_level AS \"客户等级\", SUM(orders_current.paid_amount) AS \"销售额\" FROM orders_current JOIN customers ON orders_current.customer_id = customers.customer_id WHERE orders_current.order_date >= DATE '2026-08-01' AND orders_current.order_date <= DATE '2026-08-31' GROUP BY customers.customer_level ORDER BY \"销售额\" DESC LIMIT 200",
+    "columns": [
+      "客户等级",
+      "销售额"
+    ],
+    "rows": [
+      {
+        "客户等级": "战略客户",
+        "销售额": 6414338.77
+      },
+      {
+        "客户等级": "普通客户",
+        "销售额": 5474717.37
+      },
+      {
+        "客户等级": "重点客户",
+        "销售额": 3769570.5500000017
+      }
+    ],
+    "analysis": "战略客户销售额最高，为6414338.77；普通客户为5474717.37，重点客户为3769570.5500000017。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "askdata_mock",
+        "sql": "SELECT customers.customer_level AS \"客户等级\", SUM(orders_current.paid_amount) AS \"销售额\" FROM orders_current JOIN customers ON orders_current.customer_id = customers.customer_id WHERE orders_current.order_date >= DATE '2026-08-01' AND orders_current.order_date <= DATE '2026-08-31' GROUP BY customers.customer_level ORDER BY \"销售额\" DESC LIMIT 200",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_askdata_mock",
+        "arguments": {
+          "sql": "SELECT customers.customer_level AS \"客户等级\", SUM(orders_current.paid_amount) AS \"销售额\" FROM orders_current JOIN customers ON orders_current.customer_id = customers.customer_id WHERE orders_current.order_date >= DATE '2026-08-01' AND orders_current.order_date <= DATE '2026-08-31' GROUP BY customers.customer_level ORDER BY \"销售额\" DESC LIMIT 200"
+        },
+        "result": {
+          "database": "askdata_mock",
+          "sql": "SELECT customers.customer_level AS \"客户等级\", SUM(orders_current.paid_amount) AS \"销售额\" FROM orders_current JOIN customers ON orders_current.customer_id = customers.customer_id WHERE orders_current.order_date >= DATE '2026-08-01' AND orders_current.order_date <= DATE '2026-08-31' GROUP BY customers.customer_level ORDER BY \"销售额\" DESC LIMIT 200",
+          "success": true,
+          "columns": [
+            "客户等级",
+            "销售额"
+          ],
+          "rows": [
+            {
+              "客户等级": "战略客户",
+              "销售额": 6414338.77
+            },
+            {
+              "客户等级": "普通客户",
+              "销售额": 5474717.37
+            },
+            {
+              "客户等级": "重点客户",
+              "销售额": 3769570.5500000017
+            }
+          ],
+          "row_count": 3,
+          "error": null
+        },
+        "reason": "查询2026年8月各客户等级的实付金额销售额，按销售额从高到低排序，不额外筛选订单状态。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "orders_current.paid_amount"
+        },
+        {
+          "doc_id": "customers.customer_level"
+        },
+        {
+          "doc_id": "orders_history.paid_amount"
+        },
+        {
+          "doc_id": "orders_current.order_date"
+        },
+        {
+          "doc_id": "orders_current.status"
+        },
+        {
+          "doc_id": "customers.customer_id"
+        },
+        {
+          "doc_id": "orders_current.order_amount"
+        },
+        {
+          "doc_id": "orders_current.customer_id"
+        },
+        {
+          "doc_id": "customers.customer_name"
+        },
+        {
+          "doc_id": "orders_current.order_id"
+        },
+        {
+          "doc_id": "orders_history.status"
+        },
+        {
+          "doc_id": "orders_history.order_date"
+        }
+      ]
+    }
+  },
+  "model_call_count": 7
+}

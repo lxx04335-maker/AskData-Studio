@@ -1,0 +1,29 @@
+{
+  "id": "Q21",
+  "title": "问候不查库",
+  "kind": "greeting",
+  "query": "你好，介绍一下你能做什么。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "问候应直接回答且不查询数据库",
+  "category": "passed",
+  "result": {
+    "task_id": "095779c8534a",
+    "status": "completed",
+    "route": "direct_response",
+    "workflow_mode": "direct_response",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "你好！我可以帮你进行数据问数相关操作，例如：查询指标、明细、排名、统计和对比；根据上下文解释或分析已有查询结果；把自然语言问题改写为可独立理解的查询问题；提取查询涉及的指标、维度、筛选条件、时间范围和操作意图。你也可以直接告诉我你想查什么数据，或把已有结果发给我，我来帮你解读。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [],
+    "execution_log": [],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 1
+}

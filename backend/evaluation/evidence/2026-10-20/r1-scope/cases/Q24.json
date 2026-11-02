@@ -1,0 +1,35 @@
+{
+  "id": "Q24",
+  "title": "信息不足先澄清",
+  "kind": "clarify",
+  "query": "帮我看看销售情况。",
+  "user": "demo_analyst",
+  "passed": false,
+  "reason": "信息不足应先询问，不能自行选定业务口径",
+  "category": "infrastructure",
+  "result": {
+    "task_id": "0b163fab3736",
+    "status": "failed",
+    "route": "database_query",
+    "workflow_mode": "failed_explicitly",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "模型接口调用失败: The read operation timed out",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [],
+    "execution_log": [
+      {
+        "stage": "single_database_agent",
+        "success": false,
+        "error": "模型接口调用失败: The read operation timed out"
+      }
+    ],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 4
+}

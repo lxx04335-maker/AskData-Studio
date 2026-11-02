@@ -1,0 +1,34 @@
+{
+  "id": "G26",
+  "title": "写入和多语句拒绝",
+  "kind": "guard_write",
+  "query": null,
+  "user": null,
+  "passed": true,
+  "reason": "确定性后端边界检查",
+  "category": "passed",
+  "result": [
+    {
+      "sql": "UPDATE orders_current SET region='华东'",
+      "success": false,
+      "columns": [],
+      "rows": [],
+      "error": "只允许执行SELECT/WITH只读查询"
+    },
+    {
+      "sql": "SELECT order_id FROM orders_current; SELECT customer_id FROM customers",
+      "success": false,
+      "columns": [],
+      "rows": [],
+      "error": "一次只允许执行一条SQL"
+    },
+    {
+      "sql": "SELECT * FROM orders_current",
+      "success": false,
+      "columns": [],
+      "rows": [],
+      "error": "不允许使用SELECT *，必须明确列出查询字段"
+    }
+  ],
+  "model_call_count": 0
+}

@@ -1,0 +1,137 @@
+{
+  "id": "Q17",
+  "title": "一对多关联避免重复",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：统计2026年8月1日至22日下单、实付金额大于0且至少有一条订单明细的订单，返回订单数和订单级实付金额合计；每个订单只计算一次。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "ad1f7d494f1f",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "WITH eligible_orders AS (SELECT o.order_id, o.paid_amount FROM orders o WHERE o.ordered_at >= CAST('2026-08-01' AS TIMESTAMP) AND o.ordered_at < CAST('2026-08-23' AS TIMESTAMP) AND o.paid_amount > 0 AND EXISTS (SELECT 1 FROM order_items oi WHERE oi.order_id = o.order_id)) SELECT COUNT(*) AS 订单数, SUM(paid_amount) AS 实付金额合计 FROM eligible_orders",
+    "columns": [
+      "订单数",
+      "实付金额合计"
+    ],
+    "rows": [
+      {
+        "订单数": 398,
+        "实付金额合计": 1388165.7099999995
+      }
+    ],
+    "analysis": "符合条件的订单数为398，订单级实付金额合计为1388165.7099999995，每个订单仅计算一次。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "WITH eligible_orders AS (SELECT o.order_id, o.paid_amount FROM orders o WHERE o.ordered_at >= CAST('2026-08-01' AS TIMESTAMP) AND o.ordered_at < CAST('2026-08-23' AS TIMESTAMP) AND o.paid_amount > 0 AND EXISTS (SELECT 1 FROM order_items oi WHERE oi.order_id = o.order_id)) SELECT COUNT(*) AS 订单数, SUM(paid_amount) AS 实付金额合计 FROM eligible_orders",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "WITH eligible_orders AS (SELECT o.order_id, o.paid_amount FROM orders o WHERE o.ordered_at >= CAST('2026-08-01' AS TIMESTAMP) AND o.ordered_at < CAST('2026-08-23' AS TIMESTAMP) AND o.paid_amount > 0 AND EXISTS (SELECT 1 FROM order_items oi WHERE oi.order_id = o.order_id)) SELECT COUNT(*) AS 订单数, SUM(paid_amount) AS 实付金额合计 FROM eligible_orders"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "WITH eligible_orders AS (SELECT o.order_id, o.paid_amount FROM orders o WHERE o.ordered_at >= CAST('2026-08-01' AS TIMESTAMP) AND o.ordered_at < CAST('2026-08-23' AS TIMESTAMP) AND o.paid_amount > 0 AND EXISTS (SELECT 1 FROM order_items oi WHERE oi.order_id = o.order_id)) SELECT COUNT(*) AS 订单数, SUM(paid_amount) AS 实付金额合计 FROM eligible_orders",
+          "success": true,
+          "columns": [
+            "订单数",
+            "实付金额合计"
+          ],
+          "rows": [
+            {
+              "订单数": 398,
+              "实付金额合计": 1388165.7099999995
+            }
+          ],
+          "row_count": 1,
+          "error": null
+        },
+        "reason": "统计2026年8月1日至2026年8月22日下单、订单级实付金额大于0且至少存在一条订单商品明细的订单，使用EXISTS保证每个订单只计算一次，并返回订单数与实付金额合计。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.ordered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_item_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.user_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.payable_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.product_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.sku_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.payment_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.discount_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.quantity"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.discount_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.unit_price"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.item_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.paid_at"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

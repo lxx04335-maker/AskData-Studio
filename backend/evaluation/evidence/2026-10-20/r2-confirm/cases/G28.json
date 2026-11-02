@@ -1,0 +1,16 @@
+{
+  "id": "G28",
+  "title": "未登录与目录范围",
+  "kind": "guard_auth",
+  "query": null,
+  "user": null,
+  "passed": true,
+  "reason": "确定性后端边界检查",
+  "category": "passed",
+  "result": {
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 0
+}

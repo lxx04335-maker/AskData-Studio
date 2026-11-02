@@ -1,0 +1,35 @@
+{
+  "id": "Q25",
+  "title": "工作区越权字段拦截",
+  "kind": "workspace_denied",
+  "query": "只查询 askdata_mock：统计2026年8月订单实付金额合计。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "工作区无权字段应在执行前拦截",
+  "category": "passed",
+  "result": {
+    "task_id": "222c659dae33",
+    "status": "failed",
+    "route": "database_query",
+    "workflow_mode": "failed_explicitly",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "用户确认内容包含无权访问的Schema字段",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [],
+    "execution_log": [
+      {
+        "stage": "schema_access_control",
+        "success": false,
+        "error": "用户确认内容包含无权访问的Schema字段"
+      }
+    ],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 3
+}

@@ -1,0 +1,28 @@
+const fs=require('fs');
+const path=require('path');
+const {pathToFileURL}=require('url');
+const {chromium}=require('playwright');
+const output=path.resolve(__dirname,'../../output/evaluation-20261020');
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(pathToFileURL(path.join(output,'index.html')).href);
+ if(await page.locator('#rows tr').count()!==30)throw Error('Expected 30 tasks');
+ await page.locator('#filter').selectOption('failed');
+ if(await page.locator('#rows tr').count()!==8)throw Error('Expected 8 tasks failing in at least one round');
+ await page.locator('#filter').selectOption('all');await page.locator('#search').fill('G29');
+ if(await page.locator('#rows tr').count()!==1)throw Error('Search failed');
+ await page.locator('tr[data-id="G29"]').click();
+ await page.getByRole('button',{name:'r0-edge',exact:true}).click();
+ if(!(await page.locator('#record').innerText()).includes('480'))throw Error('Missing original failure evidence');
+ await page.getByRole('button',{name:'r1-scope',exact:true}).click();
+ if(!(await page.locator('#record').innerText()).includes('无权访问'))throw Error('Missing fix evidence');
+ await page.locator('#search').fill('');await page.evaluate(()=>scrollTo(0,0));
+ await page.screenshot({path:path.join(output,'preview.png')});
+ await page.setViewportSize({width:430,height:932});await page.waitForTimeout(200);
+ const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ if(overflow||errors.length)throw Error(JSON.stringify({overflow,errors}));
+ fs.writeFileSync(path.join(output,'viewer-check.json'),JSON.stringify({tasks:30,failureFilter:8,search:true,oldEvidence:true,fixedEvidence:true,mobileOverflow:false,pageErrors:errors},null,2));
+ console.log('Viewer passed: 30 tasks, filters, before/after evidence, mobile layout.');await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,0 +1,40 @@
+{
+  "id": "Q04",
+  "title": "历史月度趋势",
+  "kind": "query",
+  "query": "只查询 askdata_mock：查询2026年6月和7月各月实付金额合计，月份显示为YYYY-MM，不额外筛选状态。",
+  "user": "demo_analyst",
+  "passed": false,
+  "reason": "期望查询完成，实际 failed",
+  "category": "infrastructure",
+  "required_field_recall": 0.0,
+  "missing_required_fields": [
+    "orders_history.order_date",
+    "orders_history.paid_amount"
+  ],
+  "result": {
+    "task_id": "6425af505498",
+    "status": "failed",
+    "route": "database_query",
+    "workflow_mode": "failed_explicitly",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "模型接口调用失败: The read operation timed out",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [],
+    "execution_log": [
+      {
+        "stage": "single_database_agent",
+        "success": false,
+        "error": "模型接口调用失败: The read operation timed out"
+      }
+    ],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 4
+}

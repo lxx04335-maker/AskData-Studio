@@ -1,0 +1,105 @@
+{
+  "id": "Q11",
+  "title": "广告收入成本比",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：汇总2026年8月1日至22日的广告归因收入和广告成本，并计算总归因收入除以总广告成本，比例保留4位小数。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "b187691f49ed",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT SUM(ad_daily_stats.attributed_revenue) AS \"广告归因收入总和\", SUM(ad_daily_stats.ad_cost) AS \"广告成本总和\", ROUND(SUM(ad_daily_stats.attributed_revenue) / NULLIF(SUM(ad_daily_stats.ad_cost), 0), 4) AS \"广告归因收入成本比\" FROM ad_daily_stats WHERE ad_daily_stats.stat_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-22'",
+    "columns": [
+      "广告归因收入总和",
+      "广告成本总和",
+      "广告归因收入成本比"
+    ],
+    "rows": [
+      {
+        "广告归因收入总和": 52097695.52000001,
+        "广告成本总和": 4486861.579999997,
+        "广告归因收入成本比": 11.6112
+      }
+    ],
+    "analysis": "该期间广告归因收入总和为52097695.52000001，广告成本总和为4486861.579999997，广告归因收入成本比为11.6112。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "SELECT SUM(ad_daily_stats.attributed_revenue) AS \"广告归因收入总和\", SUM(ad_daily_stats.ad_cost) AS \"广告成本总和\", ROUND(SUM(ad_daily_stats.attributed_revenue) / NULLIF(SUM(ad_daily_stats.ad_cost), 0), 4) AS \"广告归因收入成本比\" FROM ad_daily_stats WHERE ad_daily_stats.stat_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-22'",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "SELECT SUM(ad_daily_stats.attributed_revenue) AS \"广告归因收入总和\", SUM(ad_daily_stats.ad_cost) AS \"广告成本总和\", ROUND(SUM(ad_daily_stats.attributed_revenue) / NULLIF(SUM(ad_daily_stats.ad_cost), 0), 4) AS \"广告归因收入成本比\" FROM ad_daily_stats WHERE ad_daily_stats.stat_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-22'"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "SELECT SUM(ad_daily_stats.attributed_revenue) AS \"广告归因收入总和\", SUM(ad_daily_stats.ad_cost) AS \"广告成本总和\", ROUND(SUM(ad_daily_stats.attributed_revenue) / NULLIF(SUM(ad_daily_stats.ad_cost), 0), 4) AS \"广告归因收入成本比\" FROM ad_daily_stats WHERE ad_daily_stats.stat_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-22'",
+          "success": true,
+          "columns": [
+            "广告归因收入总和",
+            "广告成本总和",
+            "广告归因收入成本比"
+          ],
+          "rows": [
+            {
+              "广告归因收入总和": 52097695.52000001,
+              "广告成本总和": 4486861.579999997,
+              "广告归因收入成本比": 11.6112
+            }
+          ],
+          "row_count": 1,
+          "error": null
+        },
+        "reason": "日期范围明确，直接基于 ad_daily_stats 统计广告归因收入、广告成本及二者比值。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.ad_daily_stats.attributed_revenue"
+        },
+        {
+          "doc_id": "ecommerce_ops.ad_daily_stats.ad_cost"
+        },
+        {
+          "doc_id": "ecommerce_ops.ad_daily_stats.stat_date"
+        },
+        {
+          "doc_id": "ecommerce_ops.ad_campaigns.end_date"
+        },
+        {
+          "doc_id": "ecommerce_ops.ad_campaigns.start_date"
+        },
+        {
+          "doc_id": "ecommerce_ops.marketing_campaigns.starts_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.stat_date"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

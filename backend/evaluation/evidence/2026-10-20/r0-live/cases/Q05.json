@@ -1,0 +1,137 @@
+{
+  "id": "Q05",
+  "title": "商品品类销售",
+  "kind": "query",
+  "query": "只查询 askdata_mock：统计2026年8月各商品品类的实付金额合计，不额外筛选订单状态。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "f0a73c73bfb5",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT orders_current.category AS \"品类\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current WHERE orders_current.order_date BETWEEN '2026-08-01' AND '2026-08-31' GROUP BY orders_current.category ORDER BY \"实付金额合计\" DESC LIMIT 200",
+    "columns": [
+      "品类",
+      "实付金额合计"
+    ],
+    "rows": [
+      {
+        "品类": "智能硬件",
+        "实付金额合计": 4228596.38
+      },
+      {
+        "品类": "企业服务",
+        "实付金额合计": 4217793.880000001
+      },
+      {
+        "品类": "数据产品",
+        "实付金额合计": 3992502.6399999997
+      },
+      {
+        "品类": "安全服务",
+        "实付金额合计": 3219733.7900000005
+      }
+    ],
+    "analysis": "结果按品类汇总了2026年8月实付金额合计。其中智能硬件为4228596.38，企业服务为4217793.880000001，数据产品为3992502.6399999997，安全服务为3219733.7900000005。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "askdata_mock",
+        "sql": "SELECT orders_current.category AS \"品类\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current WHERE orders_current.order_date BETWEEN '2026-08-01' AND '2026-08-31' GROUP BY orders_current.category ORDER BY \"实付金额合计\" DESC LIMIT 200",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_askdata_mock",
+        "arguments": {
+          "sql": "SELECT orders_current.category AS \"品类\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current WHERE orders_current.order_date BETWEEN '2026-08-01' AND '2026-08-31' GROUP BY orders_current.category ORDER BY \"实付金额合计\" DESC LIMIT 200"
+        },
+        "result": {
+          "database": "askdata_mock",
+          "sql": "SELECT orders_current.category AS \"品类\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current WHERE orders_current.order_date BETWEEN '2026-08-01' AND '2026-08-31' GROUP BY orders_current.category ORDER BY \"实付金额合计\" DESC LIMIT 200",
+          "success": true,
+          "columns": [
+            "品类",
+            "实付金额合计"
+          ],
+          "rows": [
+            {
+              "品类": "智能硬件",
+              "实付金额合计": 4228596.38
+            },
+            {
+              "品类": "企业服务",
+              "实付金额合计": 4217793.880000001
+            },
+            {
+              "品类": "数据产品",
+              "实付金额合计": 3992502.6399999997
+            },
+            {
+              "品类": "安全服务",
+              "实付金额合计": 3219733.7900000005
+            }
+          ],
+          "row_count": 4,
+          "error": null
+        },
+        "reason": "用户指定查询 askdata_mock 中 2026年8月各商品品类的实付金额合计，且不额外筛选订单状态。orders_current 为2026年8月当前订单明细，包含品类、实付金额和下单日期字段，可直接按品类聚合实付金额。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "orders_current.paid_amount"
+        },
+        {
+          "doc_id": "orders_history.paid_amount"
+        },
+        {
+          "doc_id": "orders_current.category"
+        },
+        {
+          "doc_id": "orders_current.order_date"
+        },
+        {
+          "doc_id": "orders_current.status"
+        },
+        {
+          "doc_id": "orders_history.category"
+        },
+        {
+          "doc_id": "products.category"
+        },
+        {
+          "doc_id": "orders_current.product_id"
+        },
+        {
+          "doc_id": "orders_history.status"
+        },
+        {
+          "doc_id": "orders_current.order_amount"
+        },
+        {
+          "doc_id": "orders_current.order_id"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

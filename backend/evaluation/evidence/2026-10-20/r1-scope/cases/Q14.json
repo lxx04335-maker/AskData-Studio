@@ -1,0 +1,150 @@
+{
+  "id": "Q14",
+  "title": "订单状态分布",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：统计2026年8月1日至22日下单的订单，按订单状态统计订单数，不额外筛选实付金额。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "0270b8422edb",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT orders.order_status AS \"订单状态\", COUNT(orders.order_id) AS \"订单数量\" FROM orders WHERE orders.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND orders.ordered_at <= TIMESTAMP '2026-08-22 23:59:59' GROUP BY orders.order_status ORDER BY \"订单数量\" DESC",
+    "columns": [
+      "订单状态",
+      "订单数量"
+    ],
+    "rows": [
+      {
+        "订单状态": "completed",
+        "订单数量": 243
+      },
+      {
+        "订单状态": "shipped",
+        "订单数量": 102
+      },
+      {
+        "订单状态": "paid",
+        "订单数量": 33
+      },
+      {
+        "订单状态": "cancelled",
+        "订单数量": 28
+      },
+      {
+        "订单状态": "refunded",
+        "订单数量": 20
+      },
+      {
+        "订单状态": "pending_payment",
+        "订单数量": 5
+      }
+    ],
+    "analysis": "该时段内completed订单数量为243，shipped为102，paid为33，cancelled为28，refunded为20，pending_payment为5。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "SELECT orders.order_status AS \"订单状态\", COUNT(orders.order_id) AS \"订单数量\" FROM orders WHERE orders.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND orders.ordered_at <= TIMESTAMP '2026-08-22 23:59:59' GROUP BY orders.order_status ORDER BY \"订单数量\" DESC",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "SELECT orders.order_status AS \"订单状态\", COUNT(orders.order_id) AS \"订单数量\" FROM orders WHERE orders.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND orders.ordered_at <= TIMESTAMP '2026-08-22 23:59:59' GROUP BY orders.order_status ORDER BY \"订单数量\" DESC"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "SELECT orders.order_status AS \"订单状态\", COUNT(orders.order_id) AS \"订单数量\" FROM orders WHERE orders.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND orders.ordered_at <= TIMESTAMP '2026-08-22 23:59:59' GROUP BY orders.order_status ORDER BY \"订单数量\" DESC",
+          "success": true,
+          "columns": [
+            "订单状态",
+            "订单数量"
+          ],
+          "rows": [
+            {
+              "订单状态": "completed",
+              "订单数量": 243
+            },
+            {
+              "订单状态": "shipped",
+              "订单数量": 102
+            },
+            {
+              "订单状态": "paid",
+              "订单数量": 33
+            },
+            {
+              "订单状态": "cancelled",
+              "订单数量": 28
+            },
+            {
+              "订单状态": "refunded",
+              "订单数量": 20
+            },
+            {
+              "订单状态": "pending_payment",
+              "订单数量": 5
+            }
+          ],
+          "row_count": 6,
+          "error": null
+        },
+        "reason": "用户已给出明确日期范围，直接查询 ecommerce_ops.orders，按订单状态分组统计2026年8月1日至2026年8月22日下单的订单数量，不额外筛选实付金额。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.orders.ordered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.payable_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.purchase_orders.created_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.item_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.discount_amount"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

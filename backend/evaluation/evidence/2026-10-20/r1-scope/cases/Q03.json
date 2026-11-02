@@ -1,0 +1,131 @@
+{
+  "id": "Q03",
+  "title": "地区销售额",
+  "kind": "query",
+  "query": "只查询 askdata_mock：统计2026年8月实付金额大于0的订单，按订单地区汇总实付金额。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "a923933e5716",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT orders_current.region AS \"地区\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current WHERE orders_current.order_date BETWEEN '2026-08-01' AND '2026-08-31' AND orders_current.paid_amount > 0 GROUP BY orders_current.region ORDER BY \"实付金额合计\" DESC",
+    "columns": [
+      "地区",
+      "实付金额合计"
+    ],
+    "rows": [
+      {
+        "地区": "西南",
+        "实付金额合计": 4474287.0600000005
+      },
+      {
+        "地区": "华东",
+        "实付金额合计": 4292183.75
+      },
+      {
+        "地区": "华南",
+        "实付金额合计": 3513112.5200000005
+      },
+      {
+        "地区": "华北",
+        "实付金额合计": 3379043.360000001
+      }
+    ],
+    "analysis": "西南实付金额合计为4474287.0600000005，华东为4292183.75，华南为3513112.5200000005，华北为3379043.360000001。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "askdata_mock",
+        "sql": "SELECT orders_current.region AS \"地区\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current WHERE orders_current.order_date BETWEEN '2026-08-01' AND '2026-08-31' AND orders_current.paid_amount > 0 GROUP BY orders_current.region ORDER BY \"实付金额合计\" DESC",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_askdata_mock",
+        "arguments": {
+          "sql": "SELECT orders_current.region AS \"地区\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current WHERE orders_current.order_date BETWEEN '2026-08-01' AND '2026-08-31' AND orders_current.paid_amount > 0 GROUP BY orders_current.region ORDER BY \"实付金额合计\" DESC"
+        },
+        "result": {
+          "database": "askdata_mock",
+          "sql": "SELECT orders_current.region AS \"地区\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current WHERE orders_current.order_date BETWEEN '2026-08-01' AND '2026-08-31' AND orders_current.paid_amount > 0 GROUP BY orders_current.region ORDER BY \"实付金额合计\" DESC",
+          "success": true,
+          "columns": [
+            "地区",
+            "实付金额合计"
+          ],
+          "rows": [
+            {
+              "地区": "西南",
+              "实付金额合计": 4474287.0600000005
+            },
+            {
+              "地区": "华东",
+              "实付金额合计": 4292183.75
+            },
+            {
+              "地区": "华南",
+              "实付金额合计": 3513112.5200000005
+            },
+            {
+              "地区": "华北",
+              "实付金额合计": 3379043.360000001
+            }
+          ],
+          "row_count": 4,
+          "error": null
+        },
+        "reason": "2026年8月订单数据位于 orders_current 表，按 region 汇总 paid_amount，并限制 order_date 在2026年8月且实付金额大于0。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "orders_current.paid_amount"
+        },
+        {
+          "doc_id": "orders_history.paid_amount"
+        },
+        {
+          "doc_id": "orders_current.order_date"
+        },
+        {
+          "doc_id": "orders_current.region"
+        },
+        {
+          "doc_id": "orders_current.status"
+        },
+        {
+          "doc_id": "orders_current.order_id"
+        },
+        {
+          "doc_id": "orders_history.region"
+        },
+        {
+          "doc_id": "orders_current.order_amount"
+        },
+        {
+          "doc_id": "orders_history.order_date"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

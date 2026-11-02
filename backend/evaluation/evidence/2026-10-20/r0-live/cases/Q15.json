@@ -1,0 +1,129 @@
+{
+  "id": "Q15",
+  "title": "注册平台分布",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：统计2026年8月1日至22日注册的用户，按注册平台汇总用户数。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "6efbdee5c770",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT users.register_platform AS \"注册平台\", COUNT(users.user_id) AS \"用户数\" FROM users WHERE users.registered_at >= CAST('2026-08-01' AS TIMESTAMP) AND users.registered_at < CAST('2026-08-23' AS TIMESTAMP) GROUP BY users.register_platform ORDER BY \"用户数\" DESC",
+    "columns": [
+      "注册平台",
+      "用户数"
+    ],
+    "rows": [
+      {
+        "注册平台": "app",
+        "用户数": 120
+      },
+      {
+        "注册平台": "web",
+        "用户数": 32
+      },
+      {
+        "注册平台": "mini_program",
+        "用户数": 24
+      }
+    ],
+    "analysis": "app注册平台用户数最多，为120；web为32，mini_program为24。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "SELECT users.register_platform AS \"注册平台\", COUNT(users.user_id) AS \"用户数\" FROM users WHERE users.registered_at >= CAST('2026-08-01' AS TIMESTAMP) AND users.registered_at < CAST('2026-08-23' AS TIMESTAMP) GROUP BY users.register_platform ORDER BY \"用户数\" DESC",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "SELECT users.register_platform AS \"注册平台\", COUNT(users.user_id) AS \"用户数\" FROM users WHERE users.registered_at >= CAST('2026-08-01' AS TIMESTAMP) AND users.registered_at < CAST('2026-08-23' AS TIMESTAMP) GROUP BY users.register_platform ORDER BY \"用户数\" DESC"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "SELECT users.register_platform AS \"注册平台\", COUNT(users.user_id) AS \"用户数\" FROM users WHERE users.registered_at >= CAST('2026-08-01' AS TIMESTAMP) AND users.registered_at < CAST('2026-08-23' AS TIMESTAMP) GROUP BY users.register_platform ORDER BY \"用户数\" DESC",
+          "success": true,
+          "columns": [
+            "注册平台",
+            "用户数"
+          ],
+          "rows": [
+            {
+              "注册平台": "app",
+              "用户数": 120
+            },
+            {
+              "注册平台": "web",
+              "用户数": 32
+            },
+            {
+              "注册平台": "mini_program",
+              "用户数": 24
+            }
+          ],
+          "row_count": 3,
+          "error": null
+        },
+        "reason": "问题日期为明确绝对范围，无需时间解析；使用 users 表的 registered_at 过滤 2026-08-01 至 2026-08-22，并按 register_platform 汇总用户数。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.users.register_platform"
+        },
+        {
+          "doc_id": "ecommerce_ops.users.registered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.users.register_channel_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.users.user_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.users.masked_mobile"
+        },
+        {
+          "doc_id": "ecommerce_ops.users.email"
+        },
+        {
+          "doc_id": "ecommerce_ops.users.account_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.users.nickname"
+        },
+        {
+          "doc_id": "ecommerce_ops.user_devices.platform"
+        },
+        {
+          "doc_id": "ecommerce_ops.acquisition_channels.channel_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.user_memberships.joined_date"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

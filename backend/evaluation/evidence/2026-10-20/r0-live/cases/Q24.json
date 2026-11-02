@@ -1,0 +1,29 @@
+{
+  "id": "Q24",
+  "title": "信息不足先澄清",
+  "kind": "clarify",
+  "query": "帮我看看销售情况。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "信息不足应先询问，不能自行选定业务口径",
+  "category": "passed",
+  "result": {
+    "task_id": "4d2d8d9e35b4",
+    "status": "completed",
+    "route": "direct_response",
+    "workflow_mode": "direct_response",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "请问您希望查看哪个时间范围和哪个指标的销售情况？",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [],
+    "execution_log": [],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 1
+}

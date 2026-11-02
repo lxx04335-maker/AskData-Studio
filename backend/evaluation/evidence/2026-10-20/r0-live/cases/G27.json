@@ -1,0 +1,19 @@
+{
+  "id": "G27",
+  "title": "CTE内部越权表拒绝",
+  "kind": "guard_cte",
+  "query": null,
+  "user": null,
+  "passed": true,
+  "reason": "确定性后端边界检查",
+  "category": "passed",
+  "result": {
+    "sql": "WITH h AS (SELECT order_id FROM orders_history) SELECT order_id FROM h",
+    "columns": [],
+    "rows": [],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 0
+}

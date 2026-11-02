@@ -1,0 +1,19 @@
+{
+  "id": "G30",
+  "title": "空表权限同名CTE仍需拒绝",
+  "kind": "guard_cte_empty_scope",
+  "query": null,
+  "user": null,
+  "passed": true,
+  "reason": "确定性后端边界检查",
+  "category": "passed",
+  "result": {
+    "sql": "WITH orders_current AS (SELECT order_id FROM orders_current) SELECT COUNT(order_id) AS n FROM orders_current",
+    "columns": [],
+    "rows": [],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 0
+}

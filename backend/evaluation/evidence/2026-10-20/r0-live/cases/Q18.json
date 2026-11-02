@@ -1,0 +1,172 @@
+{
+  "id": "Q18",
+  "title": "同类目订单去重汇总",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：对2026年8月1日至22日下单且实付金额大于0的订单，按商品类目名称统计订单级实付金额合计；同一个订单在同一个类目只计算一次，取金额最高的5类。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "f6bf7de9aa51",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "WITH order_category AS (\n  SELECT DISTINCT\n    o.order_id,\n    o.paid_amount,\n    pc.category_name\n  FROM orders o\n  JOIN order_items oi ON o.order_id = oi.order_id\n  JOIN products p ON oi.product_id = p.product_id\n  JOIN product_categories pc ON p.category_id = pc.category_id\n  WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00'\n    AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00'\n    AND o.paid_amount > 0\n)\nSELECT\n  category_name AS \"商品类目名称\",\n  SUM(paid_amount) AS \"实付金额合计\"\nFROM order_category\nGROUP BY category_name\nORDER BY \"实付金额合计\" DESC\nLIMIT 5",
+    "columns": [
+      "商品类目名称",
+      "实付金额合计"
+    ],
+    "rows": [
+      {
+        "商品类目名称": "粮油调味",
+        "实付金额合计": 152867.03000000003
+      },
+      {
+        "商品类目名称": "童装童鞋",
+        "实付金额合计": 130245.92999999996
+      },
+      {
+        "商品类目名称": "箱包配饰",
+        "实付金额合计": 123724.72
+      },
+      {
+        "商品类目名称": "婴童用品",
+        "实付金额合计": 121958.13
+      },
+      {
+        "商品类目名称": "乐器",
+        "实付金额合计": 115296.81999999999
+      }
+    ],
+    "analysis": "结果返回5个类目，其中粮油调味最高为152867.03000000003，乐器为第五名115296.81999999999。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "WITH order_category AS (\n  SELECT DISTINCT\n    o.order_id,\n    o.paid_amount,\n    pc.category_name\n  FROM orders o\n  JOIN order_items oi ON o.order_id = oi.order_id\n  JOIN products p ON oi.product_id = p.product_id\n  JOIN product_categories pc ON p.category_id = pc.category_id\n  WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00'\n    AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00'\n    AND o.paid_amount > 0\n)\nSELECT\n  category_name AS \"商品类目名称\",\n  SUM(paid_amount) AS \"实付金额合计\"\nFROM order_category\nGROUP BY category_name\nORDER BY \"实付金额合计\" DESC\nLIMIT 5",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "WITH order_category AS (\n  SELECT DISTINCT\n    o.order_id,\n    o.paid_amount,\n    pc.category_name\n  FROM orders o\n  JOIN order_items oi ON o.order_id = oi.order_id\n  JOIN products p ON oi.product_id = p.product_id\n  JOIN product_categories pc ON p.category_id = pc.category_id\n  WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00'\n    AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00'\n    AND o.paid_amount > 0\n)\nSELECT\n  category_name AS \"商品类目名称\",\n  SUM(paid_amount) AS \"实付金额合计\"\nFROM order_category\nGROUP BY category_name\nORDER BY \"实付金额合计\" DESC\nLIMIT 5"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "WITH order_category AS (\n  SELECT DISTINCT\n    o.order_id,\n    o.paid_amount,\n    pc.category_name\n  FROM orders o\n  JOIN order_items oi ON o.order_id = oi.order_id\n  JOIN products p ON oi.product_id = p.product_id\n  JOIN product_categories pc ON p.category_id = pc.category_id\n  WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00'\n    AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00'\n    AND o.paid_amount > 0\n)\nSELECT\n  category_name AS \"商品类目名称\",\n  SUM(paid_amount) AS \"实付金额合计\"\nFROM order_category\nGROUP BY category_name\nORDER BY \"实付金额合计\" DESC\nLIMIT 5",
+          "success": true,
+          "columns": [
+            "商品类目名称",
+            "实付金额合计"
+          ],
+          "rows": [
+            {
+              "商品类目名称": "粮油调味",
+              "实付金额合计": 152867.03000000003
+            },
+            {
+              "商品类目名称": "童装童鞋",
+              "实付金额合计": 130245.92999999996
+            },
+            {
+              "商品类目名称": "箱包配饰",
+              "实付金额合计": 123724.72
+            },
+            {
+              "商品类目名称": "婴童用品",
+              "实付金额合计": 121958.13
+            },
+            {
+              "商品类目名称": "乐器",
+              "实付金额合计": 115296.81999999999
+            }
+          ],
+          "row_count": 5,
+          "error": null
+        },
+        "reason": "用户给出明确绝对时间范围，无需时间工具；使用订单主表实付金额，通过订单明细、商品、类目关联获取订单涉及类目，并按订单和类目去重后汇总订单级实付金额，取前5。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.orders.ordered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.category_name"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.category_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.payment_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.products.category_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.parent_category_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_item_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.product_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.payable_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.sort_order"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.category_level"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.enabled"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.sku_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.item_amount"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

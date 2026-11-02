@@ -1,0 +1,157 @@
+{
+  "id": "Q08",
+  "title": "店铺销售Top5",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：统计2026年8月1日至22日下单且实付金额大于0的订单，返回销售额最高的5家店铺名称和实付金额合计。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "3cc97c122ea1",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT stores.store_name AS \"店铺名称\", SUM(orders.paid_amount) AS \"实付金额合计\" FROM orders JOIN stores ON orders.store_id = stores.store_id WHERE orders.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND orders.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND orders.paid_amount > 0 GROUP BY stores.store_name ORDER BY SUM(orders.paid_amount) DESC LIMIT 5",
+    "columns": [
+      "店铺名称",
+      "实付金额合计"
+    ],
+    "rows": [
+      {
+        "店铺名称": "乐购064店",
+        "实付金额合计": 45037.26
+      },
+      {
+        "店铺名称": "臻品076店",
+        "实付金额合计": 43858.5
+      },
+      {
+        "店铺名称": "悦享028店",
+        "实付金额合计": 42928.740000000005
+      },
+      {
+        "店铺名称": "臻品042店",
+        "实付金额合计": 37606.92
+      },
+      {
+        "店铺名称": "优品044店",
+        "实付金额合计": 37275.439999999995
+      }
+    ],
+    "analysis": "统计结果显示乐购064店实付金额合计最高，为45037.26；臻品076店以43858.5位列第二。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "SELECT stores.store_name AS \"店铺名称\", SUM(orders.paid_amount) AS \"实付金额合计\" FROM orders JOIN stores ON orders.store_id = stores.store_id WHERE orders.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND orders.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND orders.paid_amount > 0 GROUP BY stores.store_name ORDER BY SUM(orders.paid_amount) DESC LIMIT 5",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "SELECT stores.store_name AS \"店铺名称\", SUM(orders.paid_amount) AS \"实付金额合计\" FROM orders JOIN stores ON orders.store_id = stores.store_id WHERE orders.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND orders.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND orders.paid_amount > 0 GROUP BY stores.store_name ORDER BY SUM(orders.paid_amount) DESC LIMIT 5"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "SELECT stores.store_name AS \"店铺名称\", SUM(orders.paid_amount) AS \"实付金额合计\" FROM orders JOIN stores ON orders.store_id = stores.store_id WHERE orders.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND orders.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND orders.paid_amount > 0 GROUP BY stores.store_name ORDER BY SUM(orders.paid_amount) DESC LIMIT 5",
+          "success": true,
+          "columns": [
+            "店铺名称",
+            "实付金额合计"
+          ],
+          "rows": [
+            {
+              "店铺名称": "乐购064店",
+              "实付金额合计": 45037.26
+            },
+            {
+              "店铺名称": "臻品076店",
+              "实付金额合计": 43858.5
+            },
+            {
+              "店铺名称": "悦享028店",
+              "实付金额合计": 42928.740000000005
+            },
+            {
+              "店铺名称": "臻品042店",
+              "实付金额合计": 37606.92
+            },
+            {
+              "店铺名称": "优品044店",
+              "实付金额合计": 37275.439999999995
+            }
+          ],
+          "row_count": 5,
+          "error": null
+        },
+        "reason": "用户指定日期范围明确，无需调用时间工具；使用交易订单主表orders的实付金额paid_amount和下单时间ordered_at，关联平台店铺stores获取店铺名称，筛选2026-08-01至2026-08-22下单且实付金额大于0的订单，按店铺名称汇总后取前5名。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.ordered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.stores.store_name"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.store_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.payable_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.payment_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.stores.store_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.item_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.discount_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.stores.opened_date"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

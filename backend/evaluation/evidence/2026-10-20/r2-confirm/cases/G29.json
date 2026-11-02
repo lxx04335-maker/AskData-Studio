@@ -1,0 +1,19 @@
+{
+  "id": "G29",
+  "title": "CTE同名遮蔽不能绕过表权限",
+  "kind": "guard_cte_shadow",
+  "query": null,
+  "user": null,
+  "passed": true,
+  "reason": "确定性后端边界检查",
+  "category": "passed",
+  "result": {
+    "sql": "WITH orders_history AS (SELECT order_id FROM orders_history) SELECT COUNT(order_id) AS n FROM orders_history",
+    "columns": [],
+    "rows": [],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 0
+}

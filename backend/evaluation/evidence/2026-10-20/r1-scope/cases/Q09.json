@@ -1,0 +1,212 @@
+{
+  "id": "Q09",
+  "title": "类目明细销售额",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：统计2026年8月1日至22日下单且订单实付金额大于0的订单，按商品类目名称汇总订单明细实付金额，取金额最高的10类。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "d828015dd1c8",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT pc.category_name AS \"商品类目名称\", SUM(oi.paid_amount) AS \"订单明细实付金额\" FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN products p ON oi.product_id = p.product_id JOIN product_categories pc ON p.category_id = pc.category_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0 GROUP BY pc.category_name ORDER BY SUM(oi.paid_amount) DESC LIMIT 10",
+    "columns": [
+      "商品类目名称",
+      "订单明细实付金额"
+    ],
+    "rows": [
+      {
+        "商品类目名称": "箱包配饰",
+        "订单明细实付金额": 74668.70999999999
+      },
+      {
+        "商品类目名称": "粮油调味",
+        "订单明细实付金额": 72593.27
+      },
+      {
+        "商品类目名称": "婴童用品",
+        "订单明细实付金额": 70274.64999999997
+      },
+      {
+        "商品类目名称": "家具",
+        "订单明细实付金额": 66249.48
+      },
+      {
+        "商品类目名称": "宠物生活",
+        "订单明细实付金额": 61848.85999999999
+      },
+      {
+        "商品类目名称": "奶粉辅食",
+        "订单明细实付金额": 61087.62
+      },
+      {
+        "商品类目名称": "家纺",
+        "订单明细实付金额": 56121.62
+      },
+      {
+        "商品类目名称": "乐器",
+        "订单明细实付金额": 51759.3
+      },
+      {
+        "商品类目名称": "电脑办公",
+        "订单明细实付金额": 51240.88999999999
+      },
+      {
+        "商品类目名称": "运动鞋服",
+        "订单明细实付金额": 51099.59999999999
+      }
+    ],
+    "analysis": "结果返回了符合条件的10个商品类目及对应订单明细实付金额合计。其中箱包配饰以74668.70999999999元最高，运动鞋服以51099.59999999999元位列第10。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "SELECT pc.category_name AS \"商品类目名称\", SUM(oi.paid_amount) AS \"订单明细实付金额\" FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN products p ON oi.product_id = p.product_id JOIN product_categories pc ON p.category_id = pc.category_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0 GROUP BY pc.category_name ORDER BY SUM(oi.paid_amount) DESC LIMIT 10",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "SELECT pc.category_name AS \"商品类目名称\", SUM(oi.paid_amount) AS \"订单明细实付金额\" FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN products p ON oi.product_id = p.product_id JOIN product_categories pc ON p.category_id = pc.category_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0 GROUP BY pc.category_name ORDER BY SUM(oi.paid_amount) DESC LIMIT 10"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "SELECT pc.category_name AS \"商品类目名称\", SUM(oi.paid_amount) AS \"订单明细实付金额\" FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN products p ON oi.product_id = p.product_id JOIN product_categories pc ON p.category_id = pc.category_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0 GROUP BY pc.category_name ORDER BY SUM(oi.paid_amount) DESC LIMIT 10",
+          "success": true,
+          "columns": [
+            "商品类目名称",
+            "订单明细实付金额"
+          ],
+          "rows": [
+            {
+              "商品类目名称": "箱包配饰",
+              "订单明细实付金额": 74668.70999999999
+            },
+            {
+              "商品类目名称": "粮油调味",
+              "订单明细实付金额": 72593.27
+            },
+            {
+              "商品类目名称": "婴童用品",
+              "订单明细实付金额": 70274.64999999997
+            },
+            {
+              "商品类目名称": "家具",
+              "订单明细实付金额": 66249.48
+            },
+            {
+              "商品类目名称": "宠物生活",
+              "订单明细实付金额": 61848.85999999999
+            },
+            {
+              "商品类目名称": "奶粉辅食",
+              "订单明细实付金额": 61087.62
+            },
+            {
+              "商品类目名称": "家纺",
+              "订单明细实付金额": 56121.62
+            },
+            {
+              "商品类目名称": "乐器",
+              "订单明细实付金额": 51759.3
+            },
+            {
+              "商品类目名称": "电脑办公",
+              "订单明细实付金额": 51240.88999999999
+            },
+            {
+              "商品类目名称": "运动鞋服",
+              "订单明细实付金额": 51099.59999999999
+            }
+          ],
+          "row_count": 10,
+          "error": null
+        },
+        "reason": "统计2026年8月1日至8月22日下单且订单实付金额大于0的订单，关联订单明细与商品类目，按类目名称汇总订单明细实付金额并取前10。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.ordered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.category_name"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.category_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_item_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.product_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.parent_category_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.payment_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.payable_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.discount_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.unit_price"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.sku_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.category_level"
+        },
+        {
+          "doc_id": "ecommerce_ops.product_categories.sort_order"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.quantity"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

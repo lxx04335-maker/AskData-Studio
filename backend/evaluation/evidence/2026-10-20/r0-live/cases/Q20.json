@@ -1,0 +1,53 @@
+{
+  "id": "Q20",
+  "title": "不存在指标不编造",
+  "kind": "unsupported",
+  "query": "只查询 askdata_mock：统计2026年8月各仓库的库存周转天数。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "缺失指标应澄清或明确停止，不编造表格",
+  "category": "passed",
+  "result": {
+    "task_id": "7521d0940830",
+    "status": "waiting_clarification",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "请确认库存周转天数的仓库维度和计算口径：是否提供包含仓库及库存/出入库数据的表字段，或改用现有订单/产品表近似统计？ 你可以直接回复：提供仓库库存表字段、使用订单表近似、无法查询。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": {
+      "parameter": "warehouse_inventory_turnover_definition",
+      "question": "请确认库存周转天数的仓库维度和计算口径：是否提供包含仓库及库存/出入库数据的表字段，或改用现有订单/产品表近似统计？",
+      "reason": "仓库分组字段和周转天数公式会直接决定SQL结果；当前字段检索无仓库和库存字段，不能自行补充口径。",
+      "options": [
+        {
+          "id": "provide_inventory_schema",
+          "label": "提供仓库库存表字段",
+          "description": "请补充包含仓库ID/名称、库存数量/金额、期初期末库存或出入库记录的表字段，并按平均库存/销售成本或出库成本计算周转天数。",
+          "recommended": true
+        },
+        {
+          "id": "approximate_by_orders",
+          "label": "使用订单表近似",
+          "description": "无法按真实仓库分组时，可基于orders_current/orders_history按产品或地区近似计算，但口径不是库存周转天数。",
+          "recommended": false
+        },
+        {
+          "id": "cancel",
+          "label": "无法查询",
+          "description": "如果必须按各仓库真实库存周转天数统计，而当前数据库无相关字段，则无法生成可靠结果。",
+          "recommended": false
+        }
+      ]
+    },
+    "tool_calls": [],
+    "execution_log": [],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "model_call_count": 4
+}

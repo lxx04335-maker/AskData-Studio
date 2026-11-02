@@ -1,0 +1,144 @@
+{
+  "id": "Q12",
+  "title": "退款订单去重",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：对2026年8月1日至22日下单且实付金额大于0的订单，统计其中有退款记录的去重订单数、全部符合条件的订单数，以及前者除以后者的比例，保留4位小数；退款记录不限制申请时间和状态。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "f9ebff6edd8c",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "WITH eligible_orders AS (SELECT DISTINCT o.order_id FROM orders o WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0), refund_orders AS (SELECT DISTINCT r.order_id FROM refunds r INNER JOIN eligible_orders e ON r.order_id = e.order_id) SELECT (SELECT COUNT(*) FROM refund_orders) AS \"有退款订单数\", (SELECT COUNT(*) FROM eligible_orders) AS \"全部订单数\", ROUND(CASE WHEN (SELECT COUNT(*) FROM eligible_orders) = 0 THEN 0.0 ELSE (SELECT COUNT(*) FROM refund_orders) * 1.0 / (SELECT COUNT(*) FROM eligible_orders) END, 4) AS \"退款比例\"",
+    "columns": [
+      "有退款订单数",
+      "全部订单数",
+      "退款比例"
+    ],
+    "rows": [
+      {
+        "有退款订单数": 56,
+        "全部订单数": 398,
+        "退款比例": 0.1407
+      }
+    ],
+    "analysis": "2026年8月1日至8月22日下单且实付金额大于0的订单共398单，其中有退款记录的去重订单为56单，退款比例为0.1407。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "WITH eligible_orders AS (SELECT DISTINCT o.order_id FROM orders o WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0), refund_orders AS (SELECT DISTINCT r.order_id FROM refunds r INNER JOIN eligible_orders e ON r.order_id = e.order_id) SELECT (SELECT COUNT(*) FROM refund_orders) AS \"有退款订单数\", (SELECT COUNT(*) FROM eligible_orders) AS \"全部订单数\", ROUND(CASE WHEN (SELECT COUNT(*) FROM eligible_orders) = 0 THEN 0.0 ELSE (SELECT COUNT(*) FROM refund_orders) * 1.0 / (SELECT COUNT(*) FROM eligible_orders) END, 4) AS \"退款比例\"",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "WITH eligible_orders AS (SELECT DISTINCT o.order_id FROM orders o WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0), refund_orders AS (SELECT DISTINCT r.order_id FROM refunds r INNER JOIN eligible_orders e ON r.order_id = e.order_id) SELECT (SELECT COUNT(*) FROM refund_orders) AS \"有退款订单数\", (SELECT COUNT(*) FROM eligible_orders) AS \"全部订单数\", ROUND(CASE WHEN (SELECT COUNT(*) FROM eligible_orders) = 0 THEN 0.0 ELSE (SELECT COUNT(*) FROM refund_orders) * 1.0 / (SELECT COUNT(*) FROM eligible_orders) END, 4) AS \"退款比例\""
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "WITH eligible_orders AS (SELECT DISTINCT o.order_id FROM orders o WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0), refund_orders AS (SELECT DISTINCT r.order_id FROM refunds r INNER JOIN eligible_orders e ON r.order_id = e.order_id) SELECT (SELECT COUNT(*) FROM refund_orders) AS \"有退款订单数\", (SELECT COUNT(*) FROM eligible_orders) AS \"全部订单数\", ROUND(CASE WHEN (SELECT COUNT(*) FROM eligible_orders) = 0 THEN 0.0 ELSE (SELECT COUNT(*) FROM refund_orders) * 1.0 / (SELECT COUNT(*) FROM eligible_orders) END, 4) AS \"退款比例\"",
+          "success": true,
+          "columns": [
+            "有退款订单数",
+            "全部订单数",
+            "退款比例"
+          ],
+          "rows": [
+            {
+              "有退款订单数": 56,
+              "全部订单数": 398,
+              "退款比例": 0.1407
+            }
+          ],
+          "row_count": 1,
+          "error": null
+        },
+        "reason": "统计指定下单日期范围内实付金额大于0的订单总数、其中存在退款申请的去重订单数，并计算退款订单占比，保留4位小数。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.orders.ordered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.applied_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.refund_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.completed_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.user_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.refund_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.refund_items.order_item_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refund_items.refund_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.refund_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.payable_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.refund_items.refund_item_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.discount_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.paid_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.refund_reason"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

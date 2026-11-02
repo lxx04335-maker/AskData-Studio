@@ -1,0 +1,466 @@
+{
+  "Q01": {
+    "columns": [
+      "count(order_id)",
+      "round(sum(paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        240,
+        15658626.69
+      ]
+    ],
+    "sql": "SELECT COUNT(order_id), ROUND(SUM(paid_amount),2) FROM orders_current WHERE order_date >= DATE '2026-08-01' AND order_date < DATE '2026-09-01'"
+  },
+  "Q02": {
+    "columns": [
+      "customer_level",
+      "round(sum(o.paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "战略客户",
+        6414338.77
+      ],
+      [
+        "普通客户",
+        5474717.37
+      ],
+      [
+        "重点客户",
+        3769570.55
+      ]
+    ],
+    "sql": "SELECT c.customer_level,ROUND(SUM(o.paid_amount),2) FROM orders_current o JOIN customers c ON o.customer_id=c.customer_id WHERE o.order_date>=DATE '2026-08-01' AND o.order_date<DATE '2026-09-01' GROUP BY c.customer_level ORDER BY 2 DESC"
+  },
+  "Q03": {
+    "columns": [
+      "region",
+      "round(sum(paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "西南",
+        4474287.06
+      ],
+      [
+        "华南",
+        3513112.52
+      ],
+      [
+        "华东",
+        4292183.75
+      ],
+      [
+        "华北",
+        3379043.36
+      ]
+    ],
+    "sql": "SELECT region,ROUND(SUM(paid_amount),2) FROM orders_current WHERE paid_amount>0 AND order_date>=DATE '2026-08-01' AND order_date<DATE '2026-09-01' GROUP BY region"
+  },
+  "Q04": {
+    "columns": [
+      "strftime(order_date, '%Y-%m')",
+      "round(sum(paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "2026-06",
+        14096078.76
+      ],
+      [
+        "2026-07",
+        16145060.58
+      ]
+    ],
+    "sql": "SELECT strftime(order_date,'%Y-%m'),ROUND(SUM(paid_amount),2) FROM orders_history WHERE order_date>=DATE '2026-06-01' AND order_date<DATE '2026-08-01' GROUP BY 1 ORDER BY 1"
+  },
+  "Q05": {
+    "columns": [
+      "category",
+      "round(sum(o.paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "数据产品",
+        3992502.64
+      ],
+      [
+        "企业服务",
+        4217793.88
+      ],
+      [
+        "智能硬件",
+        4228596.38
+      ],
+      [
+        "安全服务",
+        3219733.79
+      ]
+    ],
+    "sql": "SELECT p.category,ROUND(SUM(o.paid_amount),2) FROM orders_current o JOIN products p ON o.product_id=p.product_id WHERE o.order_date>=DATE '2026-08-01' AND o.order_date<DATE '2026-09-01' GROUP BY p.category"
+  },
+  "Q06": {
+    "columns": [
+      "customer_name",
+      "round(sum(o.paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "安澜科技",
+        1631402.41
+      ],
+      [
+        "远景集团",
+        1060739.97
+      ],
+      [
+        "博源制造",
+        1014199.02
+      ],
+      [
+        "德润网络",
+        909228.49
+      ],
+      [
+        "智联零售",
+        745498.75
+      ]
+    ],
+    "sql": "SELECT c.customer_name,ROUND(SUM(o.paid_amount),2) FROM orders_current o JOIN customers c ON o.customer_id=c.customer_id WHERE o.order_date>=DATE '2026-08-01' AND o.order_date<DATE '2026-09-01' GROUP BY c.customer_name ORDER BY 2 DESC LIMIT 5"
+  },
+  "Q19": {
+    "columns": [
+      "region",
+      "round(sum(paid_amount), 2)"
+    ],
+    "rows": [],
+    "sql": "SELECT region,ROUND(SUM(paid_amount),2) FROM orders_current WHERE order_date>=DATE '2027-08-01' AND order_date<DATE '2027-09-01' GROUP BY region"
+  },
+  "Q07": {
+    "columns": [
+      "count(o.order_id)",
+      "round(sum(o.paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        398,
+        1388165.71
+      ]
+    ],
+    "sql": "SELECT COUNT(o.order_id),ROUND(SUM(o.paid_amount),2) FROM orders o WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' AND o.paid_amount>0"
+  },
+  "Q08": {
+    "columns": [
+      "store_name",
+      "round(sum(o.paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "乐购064店",
+        45037.26
+      ],
+      [
+        "臻品076店",
+        43858.5
+      ],
+      [
+        "悦享028店",
+        42928.74
+      ],
+      [
+        "臻品042店",
+        37606.92
+      ],
+      [
+        "优品044店",
+        37275.44
+      ]
+    ],
+    "sql": "SELECT s.store_name,ROUND(SUM(o.paid_amount),2) FROM orders o JOIN stores s ON o.store_id=s.store_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' AND o.paid_amount>0 GROUP BY s.store_name ORDER BY 2 DESC LIMIT 5"
+  },
+  "Q09": {
+    "columns": [
+      "category_name",
+      "round(sum(i.paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "箱包配饰",
+        74668.71
+      ],
+      [
+        "粮油调味",
+        72593.27
+      ],
+      [
+        "婴童用品",
+        70274.65
+      ],
+      [
+        "家具",
+        66249.48
+      ],
+      [
+        "宠物生活",
+        61848.86
+      ],
+      [
+        "奶粉辅食",
+        61087.62
+      ],
+      [
+        "家纺",
+        56121.62
+      ],
+      [
+        "乐器",
+        51759.3
+      ],
+      [
+        "电脑办公",
+        51240.89
+      ],
+      [
+        "运动鞋服",
+        51099.6
+      ]
+    ],
+    "sql": "SELECT c.category_name,ROUND(SUM(i.paid_amount),2) FROM orders o JOIN order_items i ON o.order_id=i.order_id JOIN products p ON i.product_id=p.product_id JOIN product_categories c ON p.category_id=c.category_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' AND o.paid_amount>0 GROUP BY c.category_name ORDER BY 2 DESC LIMIT 10"
+  },
+  "Q10": {
+    "columns": [
+      "channel_name",
+      "round(sum(o.paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "应用商店",
+        113892.85
+      ],
+      [
+        "短信召回",
+        63661.88
+      ],
+      [
+        "其他",
+        4099.67
+      ],
+      [
+        "线下扫码",
+        34952.18
+      ],
+      [
+        "联盟推广",
+        92785.64
+      ],
+      [
+        "好友邀请",
+        79020.56
+      ],
+      [
+        "信息流广告",
+        143693.49
+      ],
+      [
+        "短视频达人",
+        161966.56
+      ],
+      [
+        "搜索广告",
+        184914.02
+      ],
+      [
+        "公众号",
+        102234.05
+      ],
+      [
+        "直播间",
+        76486.99
+      ],
+      [
+        "自然访问",
+        330457.82
+      ]
+    ],
+    "sql": "SELECT c.channel_name,ROUND(SUM(o.paid_amount),2) FROM orders o JOIN acquisition_channels c ON o.channel_id=c.channel_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' AND o.paid_amount>0 GROUP BY c.channel_name"
+  },
+  "Q11": {
+    "columns": [
+      "round(sum(attributed_revenue), 2)",
+      "round(sum(ad_cost), 2)",
+      "round((sum(attributed_revenue) / \"nullif\"(sum(ad_cost), 0)), 4)"
+    ],
+    "rows": [
+      [
+        52097695.52,
+        4486861.58,
+        11.6112
+      ]
+    ],
+    "sql": "SELECT ROUND(SUM(attributed_revenue),2),ROUND(SUM(ad_cost),2),ROUND(SUM(attributed_revenue)/NULLIF(SUM(ad_cost),0),4) FROM ad_daily_stats WHERE stat_date>=DATE '2026-08-01' AND stat_date<DATE '2026-08-23'"
+  },
+  "Q12": {
+    "columns": [
+      "count(DISTINCT r.order_id)",
+      "count(DISTINCT o.order_id)",
+      "round(((count(DISTINCT r.order_id) * 1.0) / \"nullif\"(count(DISTINCT o.order_id), 0)), 4)"
+    ],
+    "rows": [
+      [
+        56,
+        398,
+        0.1407
+      ]
+    ],
+    "sql": "SELECT COUNT(DISTINCT r.order_id),COUNT(DISTINCT o.order_id),ROUND(COUNT(DISTINCT r.order_id)*1.0/NULLIF(COUNT(DISTINCT o.order_id),0),4) FROM orders o LEFT JOIN refunds r ON o.order_id=r.order_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' AND o.paid_amount>0"
+  },
+  "Q13": {
+    "columns": [
+      "store_name",
+      "round(a.g, 2)",
+      "gmv_target",
+      "round((a.g / \"nullif\"(t.gmv_target, 0)), 4)"
+    ],
+    "rows": [
+      [
+        "星选039店",
+        1883869.4,
+        936094.64,
+        2.0125
+      ],
+      [
+        "星选069店",
+        1791386.39,
+        1164349.19,
+        1.5385
+      ],
+      [
+        "臻品063店",
+        1788720.23,
+        852393.34,
+        2.0985
+      ],
+      [
+        "悦享033店",
+        1753681.96,
+        1052117.19,
+        1.6668
+      ],
+      [
+        "星选057店",
+        1753599.83,
+        213774.95,
+        8.203
+      ]
+    ],
+    "sql": "WITH a AS (SELECT store_id,SUM(gmv) g FROM daily_store_metrics WHERE stat_date>=DATE '2026-08-01' AND stat_date<DATE '2026-08-23' GROUP BY store_id) SELECT s.store_name,ROUND(a.g,2),t.gmv_target,ROUND(a.g/NULLIF(t.gmv_target,0),4) FROM a JOIN sales_targets t ON a.store_id=t.store_id AND t.target_month='2026-08' JOIN stores s ON a.store_id=s.store_id ORDER BY a.g DESC LIMIT 5"
+  },
+  "Q14": {
+    "columns": [
+      "order_status",
+      "count(o.order_id)"
+    ],
+    "rows": [
+      [
+        "paid",
+        33
+      ],
+      [
+        "pending_payment",
+        5
+      ],
+      [
+        "shipped",
+        102
+      ],
+      [
+        "refunded",
+        20
+      ],
+      [
+        "completed",
+        243
+      ],
+      [
+        "cancelled",
+        28
+      ]
+    ],
+    "sql": "SELECT o.order_status,COUNT(o.order_id) FROM orders o WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' GROUP BY o.order_status"
+  },
+  "Q15": {
+    "columns": [
+      "register_platform",
+      "count(user_id)"
+    ],
+    "rows": [
+      [
+        "app",
+        120
+      ],
+      [
+        "web",
+        32
+      ],
+      [
+        "mini_program",
+        24
+      ]
+    ],
+    "sql": "SELECT register_platform,COUNT(user_id) FROM users WHERE registered_at>=TIMESTAMP '2026-08-01' AND registered_at<TIMESTAMP '2026-08-23' GROUP BY register_platform"
+  },
+  "Q16": {
+    "columns": [
+      "round((sum(o.paid_amount) / \"nullif\"(count(o.order_id), 0)), 2)"
+    ],
+    "rows": [
+      [
+        3487.85
+      ]
+    ],
+    "sql": "SELECT ROUND(SUM(o.paid_amount)/NULLIF(COUNT(o.order_id),0),2) FROM orders o WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' AND o.paid_amount>0"
+  },
+  "Q17": {
+    "columns": [
+      "count(o.order_id)",
+      "round(sum(o.paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        398,
+        1388165.71
+      ]
+    ],
+    "sql": "SELECT COUNT(o.order_id),ROUND(SUM(o.paid_amount),2) FROM orders o WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' AND o.paid_amount>0 AND EXISTS (SELECT 1 FROM order_items i WHERE i.order_id=o.order_id)"
+  },
+  "Q18": {
+    "columns": [
+      "category_name",
+      "round(sum(paid_amount), 2)"
+    ],
+    "rows": [
+      [
+        "粮油调味",
+        152867.03
+      ],
+      [
+        "童装童鞋",
+        130245.93
+      ],
+      [
+        "箱包配饰",
+        123724.72
+      ],
+      [
+        "婴童用品",
+        121958.13
+      ],
+      [
+        "乐器",
+        115296.82
+      ]
+    ],
+    "sql": "WITH a AS (SELECT DISTINCT o.order_id,o.paid_amount,c.category_name FROM orders o JOIN order_items i ON o.order_id=i.order_id JOIN products p ON i.product_id=p.product_id JOIN product_categories c ON p.category_id=c.category_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01' AND o.ordered_at < TIMESTAMP '2026-08-23' AND o.paid_amount>0) SELECT category_name,ROUND(SUM(paid_amount),2) FROM a GROUP BY category_name ORDER BY 2 DESC LIMIT 5"
+  }
+}

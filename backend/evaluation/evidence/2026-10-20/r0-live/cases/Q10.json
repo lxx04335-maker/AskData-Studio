@@ -1,0 +1,219 @@
+{
+  "id": "Q10",
+  "title": "渠道销售额",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：统计2026年8月1日至22日下单且实付金额大于0的订单，按订单归因渠道名称汇总实付金额。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "17fd61cb8d1a",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT ac.channel_name AS 渠道名称, SUM(o.paid_amount) AS 实付金额合计 FROM orders AS o JOIN acquisition_channels AS ac ON ac.channel_id = o.channel_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0 GROUP BY ac.channel_name ORDER BY 实付金额合计 DESC LIMIT 200",
+    "columns": [
+      "渠道名称",
+      "实付金额合计"
+    ],
+    "rows": [
+      {
+        "渠道名称": "自然访问",
+        "实付金额合计": 330457.82000000007
+      },
+      {
+        "渠道名称": "搜索广告",
+        "实付金额合计": 184914.02000000008
+      },
+      {
+        "渠道名称": "短视频达人",
+        "实付金额合计": 161966.56
+      },
+      {
+        "渠道名称": "信息流广告",
+        "实付金额合计": 143693.49
+      },
+      {
+        "渠道名称": "应用商店",
+        "实付金额合计": 113892.85
+      },
+      {
+        "渠道名称": "公众号",
+        "实付金额合计": 102234.04999999999
+      },
+      {
+        "渠道名称": "联盟推广",
+        "实付金额合计": 92785.63999999998
+      },
+      {
+        "渠道名称": "好友邀请",
+        "实付金额合计": 79020.56
+      },
+      {
+        "渠道名称": "直播间",
+        "实付金额合计": 76486.99
+      },
+      {
+        "渠道名称": "短信召回",
+        "实付金额合计": 63661.88
+      },
+      {
+        "渠道名称": "线下扫码",
+        "实付金额合计": 34952.18
+      },
+      {
+        "渠道名称": "其他",
+        "实付金额合计": 4099.67
+      }
+    ],
+    "analysis": "自然访问实付金额合计最高，为330457.82000000007；搜索广告次之，为184914.02000000008。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "SELECT ac.channel_name AS 渠道名称, SUM(o.paid_amount) AS 实付金额合计 FROM orders AS o JOIN acquisition_channels AS ac ON ac.channel_id = o.channel_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0 GROUP BY ac.channel_name ORDER BY 实付金额合计 DESC LIMIT 200",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "SELECT ac.channel_name AS 渠道名称, SUM(o.paid_amount) AS 实付金额合计 FROM orders AS o JOIN acquisition_channels AS ac ON ac.channel_id = o.channel_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0 GROUP BY ac.channel_name ORDER BY 实付金额合计 DESC LIMIT 200"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "SELECT ac.channel_name AS 渠道名称, SUM(o.paid_amount) AS 实付金额合计 FROM orders AS o JOIN acquisition_channels AS ac ON ac.channel_id = o.channel_id WHERE o.ordered_at >= TIMESTAMP '2026-08-01 00:00:00' AND o.ordered_at < TIMESTAMP '2026-08-23 00:00:00' AND o.paid_amount > 0 GROUP BY ac.channel_name ORDER BY 实付金额合计 DESC LIMIT 200",
+          "success": true,
+          "columns": [
+            "渠道名称",
+            "实付金额合计"
+          ],
+          "rows": [
+            {
+              "渠道名称": "自然访问",
+              "实付金额合计": 330457.82000000007
+            },
+            {
+              "渠道名称": "搜索广告",
+              "实付金额合计": 184914.02000000008
+            },
+            {
+              "渠道名称": "短视频达人",
+              "实付金额合计": 161966.56
+            },
+            {
+              "渠道名称": "信息流广告",
+              "实付金额合计": 143693.49
+            },
+            {
+              "渠道名称": "应用商店",
+              "实付金额合计": 113892.85
+            },
+            {
+              "渠道名称": "公众号",
+              "实付金额合计": 102234.04999999999
+            },
+            {
+              "渠道名称": "联盟推广",
+              "实付金额合计": 92785.63999999998
+            },
+            {
+              "渠道名称": "好友邀请",
+              "实付金额合计": 79020.56
+            },
+            {
+              "渠道名称": "直播间",
+              "实付金额合计": 76486.99
+            },
+            {
+              "渠道名称": "短信召回",
+              "实付金额合计": 63661.88
+            },
+            {
+              "渠道名称": "线下扫码",
+              "实付金额合计": 34952.18
+            },
+            {
+              "渠道名称": "其他",
+              "实付金额合计": 4099.67
+            }
+          ],
+          "row_count": 12,
+          "error": null
+        },
+        "reason": "使用订单主表按下单时间2026-08-01至2026-08-22、实付金额大于0过滤，并关联渠道维表按渠道名称汇总实付金额。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.ordered_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.channel_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.acquisition_channels.channel_name"
+        },
+        {
+          "doc_id": "ecommerce_ops.acquisition_channels.channel_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.payment_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.payable_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.paid_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.store_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.acquisition_channels.channel_group"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.discount_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.acquisition_channels.channel_type"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.item_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_id"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

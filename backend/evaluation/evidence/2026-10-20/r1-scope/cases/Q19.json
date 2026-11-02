@@ -1,0 +1,87 @@
+{
+  "id": "Q19",
+  "title": "合法空结果",
+  "kind": "query",
+  "query": "只查询 askdata_mock：查询2027年8月各订单地区的实付金额合计，直接按现有数据查询，没有数据就返回空结果，不改查其他日期。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 0.6667,
+  "missing_required_fields": [
+    "orders_current.order_date"
+  ],
+  "result": {
+    "task_id": "174495273dcd",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "WITH orders AS (SELECT orders_current.region AS region, orders_current.paid_amount AS paid_amount, TRY_CAST(orders_current.order_date AS DATE) AS order_date FROM orders_current UNION ALL SELECT orders_history.region AS region, orders_history.paid_amount AS paid_amount, TRY_CAST(orders_history.order_date AS DATE) AS order_date FROM orders_history) SELECT region AS \"地区\", SUM(paid_amount) AS \"实付金额合计\" FROM orders WHERE order_date >= DATE '2027-08-01' AND order_date < DATE '2027-09-01' GROUP BY region ORDER BY region LIMIT 200",
+    "columns": [
+      "地区",
+      "实付金额合计"
+    ],
+    "rows": [],
+    "analysis": "SQL按2027-08-01至2027-08-31过滤并汇总各订单地区实付金额，但结果数据为空。当前askdata_mock中未返回2027年8月相关订单地区实付金额合计数据。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "askdata_mock",
+        "sql": "WITH orders AS (SELECT orders_current.region AS region, orders_current.paid_amount AS paid_amount, TRY_CAST(orders_current.order_date AS DATE) AS order_date FROM orders_current UNION ALL SELECT orders_history.region AS region, orders_history.paid_amount AS paid_amount, TRY_CAST(orders_history.order_date AS DATE) AS order_date FROM orders_history) SELECT region AS \"地区\", SUM(paid_amount) AS \"实付金额合计\" FROM orders WHERE order_date >= DATE '2027-08-01' AND order_date < DATE '2027-09-01' GROUP BY region ORDER BY region LIMIT 200",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_askdata_mock",
+        "arguments": {
+          "sql": "WITH orders AS (SELECT orders_current.region AS region, orders_current.paid_amount AS paid_amount, TRY_CAST(orders_current.order_date AS DATE) AS order_date FROM orders_current UNION ALL SELECT orders_history.region AS region, orders_history.paid_amount AS paid_amount, TRY_CAST(orders_history.order_date AS DATE) AS order_date FROM orders_history) SELECT region AS \"地区\", SUM(paid_amount) AS \"实付金额合计\" FROM orders WHERE order_date >= DATE '2027-08-01' AND order_date < DATE '2027-09-01' GROUP BY region ORDER BY region LIMIT 200"
+        },
+        "result": {
+          "database": "askdata_mock",
+          "sql": "WITH orders AS (SELECT orders_current.region AS region, orders_current.paid_amount AS paid_amount, TRY_CAST(orders_current.order_date AS DATE) AS order_date FROM orders_current UNION ALL SELECT orders_history.region AS region, orders_history.paid_amount AS paid_amount, TRY_CAST(orders_history.order_date AS DATE) AS order_date FROM orders_history) SELECT region AS \"地区\", SUM(paid_amount) AS \"实付金额合计\" FROM orders WHERE order_date >= DATE '2027-08-01' AND order_date < DATE '2027-09-01' GROUP BY region ORDER BY region LIMIT 200",
+          "success": true,
+          "columns": [
+            "地区",
+            "实付金额合计"
+          ],
+          "rows": [],
+          "row_count": 0,
+          "error": null
+        },
+        "reason": "按用户明确指定的2027年8月范围，在askdata_mock的订单明细中按订单地区汇总实付金额；若现有数据没有该日期范围，则自然返回空结果，不改查其他日期。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "orders_current.paid_amount"
+        },
+        {
+          "doc_id": "orders_history.paid_amount"
+        },
+        {
+          "doc_id": "orders_current.region"
+        },
+        {
+          "doc_id": "orders_history.region"
+        },
+        {
+          "doc_id": "customers.region"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

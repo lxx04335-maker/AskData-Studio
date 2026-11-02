@@ -1,0 +1,58 @@
+{
+  "scorer_version": 2,
+  "note": "All rounds regraded with the same scorer; original traces and scores retained. Query matching ignores alias/column/row order and does not validate narrative factuality.",
+  "groups": {
+    "all": {
+      "total": 2,
+      "passed": 0,
+      "failed": 2
+    },
+    "query": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0
+    },
+    "guardrails": {
+      "total": 2,
+      "passed": 0,
+      "failed": 2
+    },
+    "behavior": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0
+    }
+  },
+  "cases": [
+    {
+      "id": "G29",
+      "title": "CTE同名遮蔽不能绕过表权限",
+      "kind": "guard_cte_shadow",
+      "seconds": 0.277,
+      "first_table_seconds": null,
+      "first_text_seconds": null,
+      "text_event_count": 0,
+      "required_field_recall": null,
+      "missing_required_fields": null,
+      "passed": false,
+      "reason": "确定性后端边界检查",
+      "category": "guardrail",
+      "original_passed": false
+    },
+    {
+      "id": "G30",
+      "title": "空表权限同名CTE仍需拒绝",
+      "kind": "guard_cte_empty_scope",
+      "seconds": 0.25,
+      "first_table_seconds": null,
+      "first_text_seconds": null,
+      "text_event_count": 0,
+      "required_field_recall": null,
+      "missing_required_fields": null,
+      "passed": false,
+      "reason": "确定性后端边界检查",
+      "category": "guardrail",
+      "original_passed": false
+    }
+  ]
+}

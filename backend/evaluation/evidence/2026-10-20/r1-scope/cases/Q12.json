@@ -1,0 +1,118 @@
+{
+  "id": "Q12",
+  "title": "退款订单去重",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：对2026年8月1日至22日下单且实付金额大于0的订单，统计其中有退款记录的去重订单数、全部符合条件的订单数，以及前者除以后者的比例，保留4位小数；退款记录不限制申请时间和状态。",
+  "user": "demo_current_sales",
+  "passed": false,
+  "reason": "期望查询完成，实际 waiting_clarification",
+  "category": "unexpected_clarification",
+  "required_field_recall": 0.6667,
+  "missing_required_fields": [
+    "ecommerce_ops.orders.ordered_at"
+  ],
+  "result": {
+    "task_id": "d4e5420874f7",
+    "status": "waiting_clarification",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "请确认用于筛选“下单日期”的字段名称。 你可以直接回复：使用orders.created_at、使用orders.order_date、使用payments.paid_at、提供其他下单时间字段。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": {
+      "parameter": "order_date_field",
+      "question": "请确认用于筛选“下单日期”的字段名称。",
+      "reason": "问题要求按2026年8月1日至2026年8月22日下单筛选，但已提供的orders表字段中仅包含order_id和paid_amount，没有下单时间字段；不同时间字段会实质改变订单范围。",
+      "options": [
+        {
+          "id": "orders_created_at",
+          "label": "使用orders.created_at",
+          "description": "按订单主表的创建时间/下单时间筛选2026-08-01至2026-08-22。",
+          "recommended": true
+        },
+        {
+          "id": "orders_order_date",
+          "label": "使用orders.order_date",
+          "description": "按订单主表的下单日期筛选2026-08-01至2026-08-22。",
+          "recommended": false
+        },
+        {
+          "id": "payments_paid_at",
+          "label": "使用payments.paid_at",
+          "description": "按支付流水的支付时间筛选，但这会改变“下单”的业务口径。",
+          "recommended": false
+        },
+        {
+          "id": "other_field",
+          "label": "提供其他下单时间字段",
+          "description": "请补充实际用于表示下单时间的表字段名称。",
+          "recommended": false
+        }
+      ]
+    },
+    "tool_calls": [],
+    "execution_log": [],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.orders.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.applied_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.paid_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.orders.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.refund_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.completed_at"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.refund_status"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.user_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refund_items.order_item_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.refund_amount"
+        },
+        {
+          "doc_id": "ecommerce_ops.refund_items.refund_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.payments.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refund_items.refund_item_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refunds.refund_reason"
+        },
+        {
+          "doc_id": "ecommerce_ops.order_items.order_item_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.refund_items.refund_amount"
+        }
+      ]
+    }
+  },
+  "model_call_count": 4
+}

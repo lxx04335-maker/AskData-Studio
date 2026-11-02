@@ -1,0 +1,156 @@
+{
+  "id": "Q23",
+  "title": "报告图表引用原表",
+  "kind": "report",
+  "query": "基于刚才的客户等级销售结果生成分析报告，并用柱状图展示，引用原表，不要查询新数据。",
+  "user": "demo_analyst",
+  "passed": false,
+  "reason": "报告Markdown和图表必须引用原表有效字段（报告事实需人工复核）",
+  "category": "infrastructure",
+  "result": {
+    "task_id": "238bde95c151",
+    "status": "completed",
+    "route": "direct_response",
+    "workflow_mode": "route_fallback",
+    "sql": null,
+    "columns": [],
+    "rows": [],
+    "analysis": "大模型服务暂时不可用，请稍后重试。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [],
+    "execution_log": [
+      {
+        "stage": "route_fallback",
+        "success": true,
+        "source": "model_unavailable_fallback",
+        "action": "direct_response",
+        "reason": "预处理模型不可用，已启用保守兜底：模型流式响应失败：HTTP Error 400: Bad Request"
+      }
+    ],
+    "retrieval": {
+      "hits": []
+    }
+  },
+  "setup_result": {
+    "task_id": "57722af0f687",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT c.customer_level AS \"客户等级\", SUM(o.paid_amount) AS \"销售额\" FROM orders_current AS o JOIN customers AS c ON o.customer_id = c.customer_id WHERE o.order_date BETWEEN '2026-08-01' AND '2026-08-31' GROUP BY c.customer_level ORDER BY \"销售额\" DESC LIMIT 200",
+    "columns": [
+      "客户等级",
+      "销售额"
+    ],
+    "rows": [
+      {
+        "客户等级": "战略客户",
+        "销售额": 6414338.77
+      },
+      {
+        "客户等级": "普通客户",
+        "销售额": 5474717.37
+      },
+      {
+        "客户等级": "重点客户",
+        "销售额": 3769570.5500000017
+      }
+    ],
+    "analysis": "结果按销售额从高到低为：战略客户 6414338.77、普通客户 5474717.37、重点客户 3769570.5500000017。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "askdata_mock",
+        "sql": "SELECT c.customer_level AS \"客户等级\", SUM(o.paid_amount) AS \"销售额\" FROM orders_current AS o JOIN customers AS c ON o.customer_id = c.customer_id WHERE o.order_date BETWEEN '2026-08-01' AND '2026-08-31' GROUP BY c.customer_level ORDER BY \"销售额\" DESC LIMIT 200",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_askdata_mock",
+        "arguments": {
+          "sql": "SELECT c.customer_level AS \"客户等级\", SUM(o.paid_amount) AS \"销售额\" FROM orders_current AS o JOIN customers AS c ON o.customer_id = c.customer_id WHERE o.order_date BETWEEN '2026-08-01' AND '2026-08-31' GROUP BY c.customer_level ORDER BY \"销售额\" DESC LIMIT 200"
+        },
+        "result": {
+          "database": "askdata_mock",
+          "sql": "SELECT c.customer_level AS \"客户等级\", SUM(o.paid_amount) AS \"销售额\" FROM orders_current AS o JOIN customers AS c ON o.customer_id = c.customer_id WHERE o.order_date BETWEEN '2026-08-01' AND '2026-08-31' GROUP BY c.customer_level ORDER BY \"销售额\" DESC LIMIT 200",
+          "success": true,
+          "columns": [
+            "客户等级",
+            "销售额"
+          ],
+          "rows": [
+            {
+              "客户等级": "战略客户",
+              "销售额": 6414338.77
+            },
+            {
+              "客户等级": "普通客户",
+              "销售额": 5474717.37
+            },
+            {
+              "客户等级": "重点客户",
+              "销售额": 3769570.5500000017
+            }
+          ],
+          "row_count": 3,
+          "error": null
+        },
+        "reason": "用户需要统计2026年8月各客户等级的销售额，使用当前订单明细表 orders_current 与客户信息表 customers 关联，按 customer_level 分组汇总 paid_amount，并按销售额降序排序，不筛选订单状态。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "orders_current.paid_amount"
+        },
+        {
+          "doc_id": "customers.customer_level"
+        },
+        {
+          "doc_id": "orders_history.paid_amount"
+        },
+        {
+          "doc_id": "orders_current.order_date"
+        },
+        {
+          "doc_id": "orders_current.status"
+        },
+        {
+          "doc_id": "customers.customer_id"
+        },
+        {
+          "doc_id": "orders_current.customer_id"
+        },
+        {
+          "doc_id": "orders_current.order_amount"
+        },
+        {
+          "doc_id": "orders_history.order_date"
+        },
+        {
+          "doc_id": "orders_history.status"
+        },
+        {
+          "doc_id": "customers.customer_name"
+        },
+        {
+          "doc_id": "orders_current.order_id"
+        }
+      ]
+    }
+  },
+  "model_call_count": 6
+}

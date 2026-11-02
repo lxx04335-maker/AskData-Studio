@@ -1,0 +1,139 @@
+{
+  "id": "Q06",
+  "title": "客户销售Top5",
+  "kind": "query",
+  "query": "只查询 askdata_mock：统计2026年8月实付金额合计最高的5个客户，返回客户名称和实付金额合计，不额外筛选订单状态。",
+  "user": "demo_analyst",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "693e4d5fe1f9",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "SELECT customers.customer_name AS \"客户名称\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current JOIN customers ON orders_current.customer_id = customers.customer_id WHERE orders_current.order_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-31' GROUP BY customers.customer_id, customers.customer_name ORDER BY \"实付金额合计\" DESC LIMIT 5",
+    "columns": [
+      "客户名称",
+      "实付金额合计"
+    ],
+    "rows": [
+      {
+        "客户名称": "安澜科技",
+        "实付金额合计": 1631402.41
+      },
+      {
+        "客户名称": "远景集团",
+        "实付金额合计": 1060739.97
+      },
+      {
+        "客户名称": "博源制造",
+        "实付金额合计": 1014199.0199999999
+      },
+      {
+        "客户名称": "德润网络",
+        "实付金额合计": 909228.49
+      },
+      {
+        "客户名称": "智联零售",
+        "实付金额合计": 745498.7499999999
+      }
+    ],
+    "analysis": "查询结果返回了5个客户的名称及实付金额合计。其中安澜科技以1631402.41最高，远景集团以1060739.97位列第二。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "askdata_mock",
+        "sql": "SELECT customers.customer_name AS \"客户名称\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current JOIN customers ON orders_current.customer_id = customers.customer_id WHERE orders_current.order_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-31' GROUP BY customers.customer_id, customers.customer_name ORDER BY \"实付金额合计\" DESC LIMIT 5",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_askdata_mock",
+        "arguments": {
+          "sql": "SELECT customers.customer_name AS \"客户名称\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current JOIN customers ON orders_current.customer_id = customers.customer_id WHERE orders_current.order_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-31' GROUP BY customers.customer_id, customers.customer_name ORDER BY \"实付金额合计\" DESC LIMIT 5"
+        },
+        "result": {
+          "database": "askdata_mock",
+          "sql": "SELECT customers.customer_name AS \"客户名称\", SUM(orders_current.paid_amount) AS \"实付金额合计\" FROM orders_current JOIN customers ON orders_current.customer_id = customers.customer_id WHERE orders_current.order_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-31' GROUP BY customers.customer_id, customers.customer_name ORDER BY \"实付金额合计\" DESC LIMIT 5",
+          "success": true,
+          "columns": [
+            "客户名称",
+            "实付金额合计"
+          ],
+          "rows": [
+            {
+              "客户名称": "安澜科技",
+              "实付金额合计": 1631402.41
+            },
+            {
+              "客户名称": "远景集团",
+              "实付金额合计": 1060739.97
+            },
+            {
+              "客户名称": "博源制造",
+              "实付金额合计": 1014199.0199999999
+            },
+            {
+              "客户名称": "德润网络",
+              "实付金额合计": 909228.49
+            },
+            {
+              "客户名称": "智联零售",
+              "实付金额合计": 745498.7499999999
+            }
+          ],
+          "row_count": 5,
+          "error": null
+        },
+        "reason": "使用2026年8月当前订单明细按客户汇总实付金额，不筛选订单状态，返回合计最高的5个客户。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "orders_current.paid_amount"
+        },
+        {
+          "doc_id": "orders_history.paid_amount"
+        },
+        {
+          "doc_id": "customers.customer_name"
+        },
+        {
+          "doc_id": "orders_current.order_date"
+        },
+        {
+          "doc_id": "orders_current.status"
+        },
+        {
+          "doc_id": "orders_current.customer_id"
+        },
+        {
+          "doc_id": "customers.customer_id"
+        },
+        {
+          "doc_id": "orders_current.order_amount"
+        },
+        {
+          "doc_id": "orders_history.status"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}

@@ -1,0 +1,196 @@
+{
+  "id": "Q13",
+  "title": "店铺目标进度",
+  "kind": "query",
+  "query": "只查询 ecommerce_ops：查询2026年8月1日至22日每日店铺指标的GMV合计最高的5家店铺，返回店铺名称、该期间GMV、8月月度GMV目标和完成率，完成率为实际除以目标，保留4位小数。",
+  "user": "demo_current_sales",
+  "passed": true,
+  "reason": "结果数值和维度匹配（忽略别名、列顺序、行顺序）",
+  "category": "passed",
+  "required_field_recall": 1.0,
+  "missing_required_fields": [],
+  "result": {
+    "task_id": "58a30e639ad8",
+    "status": "completed",
+    "route": "database_query",
+    "workflow_mode": "single_database_agent",
+    "sql": "WITH period_gmv AS (\n  SELECT\n    dsm.store_id,\n    SUM(dsm.gmv) AS period_gmv\n  FROM daily_store_metrics dsm\n  WHERE dsm.stat_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-22'\n  GROUP BY dsm.store_id\n),\naug_targets AS (\n  SELECT\n    st.store_id,\n    SUM(st.gmv_target) AS aug_gmv_target\n  FROM sales_targets st\n  WHERE st.target_month = '2026-08'\n  GROUP BY st.store_id\n)\nSELECT\n  s.store_name AS \"店铺名称\",\n  p.period_gmv AS \"期间GMV合计\",\n  t.aug_gmv_target AS \"8月GMV目标\",\n  ROUND(p.period_gmv / NULLIF(t.aug_gmv_target, 0), 4) AS \"完成率\"\nFROM period_gmv p\nJOIN stores s\n  ON s.store_id = p.store_id\nLEFT JOIN aug_targets t\n  ON t.store_id = p.store_id\nORDER BY p.period_gmv DESC\nLIMIT 5",
+    "columns": [
+      "店铺名称",
+      "期间GMV合计",
+      "8月GMV目标",
+      "完成率"
+    ],
+    "rows": [
+      {
+        "店铺名称": "星选039店",
+        "期间GMV合计": 1883869.4000000001,
+        "8月GMV目标": 936094.64,
+        "完成率": 2.0125
+      },
+      {
+        "店铺名称": "星选069店",
+        "期间GMV合计": 1791386.3900000001,
+        "8月GMV目标": 1164349.19,
+        "完成率": 1.5385
+      },
+      {
+        "店铺名称": "臻品063店",
+        "期间GMV合计": 1788720.23,
+        "8月GMV目标": 852393.34,
+        "完成率": 2.0985
+      },
+      {
+        "店铺名称": "悦享033店",
+        "期间GMV合计": 1753681.96,
+        "8月GMV目标": 1052117.19,
+        "完成率": 1.6668
+      },
+      {
+        "店铺名称": "星选057店",
+        "期间GMV合计": 1753599.83,
+        "8月GMV目标": 213774.95,
+        "完成率": 8.203
+      }
+    ],
+    "analysis": "星选039店期间GMV合计最高，为1883869.4000000001，完成率2.0125；星选057店完成率最高，为8.203。",
+    "analysis_sources": [],
+    "report": null,
+    "clarification": null,
+    "tool_calls": [
+      {
+        "database": "ecommerce_ops",
+        "sql": "WITH period_gmv AS (\n  SELECT\n    dsm.store_id,\n    SUM(dsm.gmv) AS period_gmv\n  FROM daily_store_metrics dsm\n  WHERE dsm.stat_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-22'\n  GROUP BY dsm.store_id\n),\naug_targets AS (\n  SELECT\n    st.store_id,\n    SUM(st.gmv_target) AS aug_gmv_target\n  FROM sales_targets st\n  WHERE st.target_month = '2026-08'\n  GROUP BY st.store_id\n)\nSELECT\n  s.store_name AS \"店铺名称\",\n  p.period_gmv AS \"期间GMV合计\",\n  t.aug_gmv_target AS \"8月GMV目标\",\n  ROUND(p.period_gmv / NULLIF(t.aug_gmv_target, 0), 4) AS \"完成率\"\nFROM period_gmv p\nJOIN stores s\n  ON s.store_id = p.store_id\nLEFT JOIN aug_targets t\n  ON t.store_id = p.store_id\nORDER BY p.period_gmv DESC\nLIMIT 5",
+        "success": true
+      }
+    ],
+    "execution_log": [
+      {
+        "stage": "mcp_tool_call",
+        "success": true,
+        "call_index": 1,
+        "tool": "query_ecommerce_ops",
+        "arguments": {
+          "sql": "WITH period_gmv AS (\n  SELECT\n    dsm.store_id,\n    SUM(dsm.gmv) AS period_gmv\n  FROM daily_store_metrics dsm\n  WHERE dsm.stat_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-22'\n  GROUP BY dsm.store_id\n),\naug_targets AS (\n  SELECT\n    st.store_id,\n    SUM(st.gmv_target) AS aug_gmv_target\n  FROM sales_targets st\n  WHERE st.target_month = '2026-08'\n  GROUP BY st.store_id\n)\nSELECT\n  s.store_name AS \"店铺名称\",\n  p.period_gmv AS \"期间GMV合计\",\n  t.aug_gmv_target AS \"8月GMV目标\",\n  ROUND(p.period_gmv / NULLIF(t.aug_gmv_target, 0), 4) AS \"完成率\"\nFROM period_gmv p\nJOIN stores s\n  ON s.store_id = p.store_id\nLEFT JOIN aug_targets t\n  ON t.store_id = p.store_id\nORDER BY p.period_gmv DESC\nLIMIT 5"
+        },
+        "result": {
+          "database": "ecommerce_ops",
+          "sql": "WITH period_gmv AS (\n  SELECT\n    dsm.store_id,\n    SUM(dsm.gmv) AS period_gmv\n  FROM daily_store_metrics dsm\n  WHERE dsm.stat_date BETWEEN DATE '2026-08-01' AND DATE '2026-08-22'\n  GROUP BY dsm.store_id\n),\naug_targets AS (\n  SELECT\n    st.store_id,\n    SUM(st.gmv_target) AS aug_gmv_target\n  FROM sales_targets st\n  WHERE st.target_month = '2026-08'\n  GROUP BY st.store_id\n)\nSELECT\n  s.store_name AS \"店铺名称\",\n  p.period_gmv AS \"期间GMV合计\",\n  t.aug_gmv_target AS \"8月GMV目标\",\n  ROUND(p.period_gmv / NULLIF(t.aug_gmv_target, 0), 4) AS \"完成率\"\nFROM period_gmv p\nJOIN stores s\n  ON s.store_id = p.store_id\nLEFT JOIN aug_targets t\n  ON t.store_id = p.store_id\nORDER BY p.period_gmv DESC\nLIMIT 5",
+          "success": true,
+          "columns": [
+            "店铺名称",
+            "期间GMV合计",
+            "8月GMV目标",
+            "完成率"
+          ],
+          "rows": [
+            {
+              "店铺名称": "星选039店",
+              "期间GMV合计": 1883869.4000000001,
+              "8月GMV目标": 936094.64,
+              "完成率": 2.0125
+            },
+            {
+              "店铺名称": "星选069店",
+              "期间GMV合计": 1791386.3900000001,
+              "8月GMV目标": 1164349.19,
+              "完成率": 1.5385
+            },
+            {
+              "店铺名称": "臻品063店",
+              "期间GMV合计": 1788720.23,
+              "8月GMV目标": 852393.34,
+              "完成率": 2.0985
+            },
+            {
+              "店铺名称": "悦享033店",
+              "期间GMV合计": 1753681.96,
+              "8月GMV目标": 1052117.19,
+              "完成率": 1.6668
+            },
+            {
+              "店铺名称": "星选057店",
+              "期间GMV合计": 1753599.83,
+              "8月GMV目标": 213774.95,
+              "完成率": 8.203
+            }
+          ],
+          "row_count": 5,
+          "error": null
+        },
+        "reason": "用户已给出明确日期范围，无需时间工具；使用店铺日经营指标聚合2026-08-01至2026-08-22的GMV，关联店铺名称和2026-08月度GMV目标，计算完成率并按期间GMV合计取前5家。"
+      },
+      {
+        "stage": "execute_duckdb",
+        "success": true,
+        "error": null,
+        "via": "mcp"
+      }
+    ],
+    "retrieval": {
+      "hits": [
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.gmv"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.stat_date"
+        },
+        {
+          "doc_id": "ecommerce_ops.stores.store_name"
+        },
+        {
+          "doc_id": "ecommerce_ops.sales_targets.gmv_target"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.store_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.metric_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.stores.store_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.sales_targets.target_month"
+        },
+        {
+          "doc_id": "ecommerce_ops.sales_targets.store_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.sales_targets.target_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.paid_orders"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.visitors"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_product_metrics.gmv"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.buyers"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.net_revenue"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_product_metrics.store_id"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.fulfillment_rate"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.conversion_rate"
+        },
+        {
+          "doc_id": "ecommerce_ops.sales_targets.owner_name"
+        },
+        {
+          "doc_id": "ecommerce_ops.daily_store_metrics.service_score"
+        }
+      ]
+    }
+  },
+  "model_call_count": 5
+}
